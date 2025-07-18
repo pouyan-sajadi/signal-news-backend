@@ -1,0 +1,21 @@
+2025-07-18 17:05:17,535 [INFO] Received request for topic: a
+2025-07-18 17:05:17,536 [INFO] Created job_id: aea9633d-9574-448b-8dc8-15a434831a08
+2025-07-18 17:05:17,537 [INFO] 🔍 Refining search query...
+2025-07-18 17:05:17,537 [ERROR] Error in Search step
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/core/process.py", line 36, in process_news_backend
+    search_response = await client.run_async(
+                            ^^^^^^^^^^^^^^^^
+AttributeError: 'Swarm' object has no attribute 'run_async'
+2025-07-18 17:05:18,096 [INFO] WebSocket connection established for job_id: aea9633d-9574-448b-8dc8-15a434831a08
+2025-07-18 17:05:38,783 [INFO] WebSocket connection closed for job_id: aea9633d-9574-448b-8dc8-15a434831a08
+2025-07-18 17:08:13,885 [INFO] Received request for topic: ai
+2025-07-18 17:08:13,887 [INFO] Created job_id: cf2c573c-7733-45ba-a516-c21780696643
+2025-07-18 17:08:13,889 [INFO] 🔍 Refining search query...
+2025-07-18 17:08:13,889 [ERROR] Error in Search step
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/core/process.py", line 36, in process_news_backend
+    search_response = await client.run_async(
+                            ^^^^^^^^^^^^^^^^
+AttributeError: 'Swarm' object has no attribute 'run_async'
+2025-07-18 17:08:13,961 [INFO] WebSocket connection established for job_id: cf2c573c-7733-45ba-a516-c21780696643
