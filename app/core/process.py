@@ -33,7 +33,8 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
         await notify({"step": "search", "status": "running", "message": "🔍 Refining search query..."})
         search_agent_instance = create_search_agent()
         refine_start_time = time.time()
-        search_response = await client.run_async(
+        search_response = await asyncio.to_thread(
+            client.run,
             agent=search_agent_instance,
             messages=[{"role": "user", "content": topic}]
         )
@@ -84,7 +85,8 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
         await notify({"step": "profiling", "status": "running", "message": "🧠 Profiling sources..."})
         source_profiler_agent_instance = create_source_profiler_agent(focus)
         profiler_message = f"Profile these articles:\n{json.dumps(raw_news_list, indent=2)}"
-        profile_response = await client.run_async(
+        profile_response = await asyncio.to_thread(
+            client.run,
             agent=source_profiler_agent_instance,
             messages=[{"role": "user", "content": profiler_message}]
         )
@@ -101,7 +103,8 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
         await notify({"step": "selection", "status": "running", "message": "🧮 Selecting diverse articles..."})
         diversity_selector_agent_instance = create_diversity_selector_agent(focus, depth)
         diversity_message = f"Select a diverse subset from these profiles: {json.dumps(profiling_output, indent=2)}"
-        diversity_response = await client.run_async(
+        diversity_response = await asyncio.to_thread(
+            client.run,
             agent=diversity_selector_agent_instance,
             messages=[{"role": "user", "content": diversity_message}]
         )
@@ -119,7 +122,8 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
         logger.info("🗣️ Running Debate Synthesizer Agent...")
         await notify({"step": "synthesis", "status": "running", "message": "🗣️ Synthesizing the debate..."})
         debate_synthesizer_agent_instance = create_debate_synthesizer_agent(focus, depth)
-        debate_response = await client.run_async(
+        debate_response = await asyncio.to_thread(
+            client.run,
             agent=debate_synthesizer_agent_instance,
             messages=[{"role": "user", "content": f"Create a debate report:\n{json.dumps(selected_articles, indent=2)}"}]
         )
@@ -135,7 +139,8 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
         logger.info("🎨 Running Creative Editor Agent...")
         await notify({"step": "editing", "status": "running", "message": "🎨 Applying a creative touch..."})
         creative_editor_agent_instance = create_creative_editor_agent(focus, depth, tone)
-        creative_response = await client.run_async(
+        creative_response = await asyncio.to_thread(
+            client.run,
             agent=creative_editor_agent_instance,
             messages=[{"role": "user", "content": f"Rewrite this report:\n{final_report}"}]
         )
