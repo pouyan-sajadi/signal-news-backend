@@ -1,3 +1,0 @@
-Note: Start Backend Correctly (Foreground for Debugging): I will execute uvicorn from within the
-      signal-app-backend directory, using the correct relative path to the uvicorn executable. I
-      will run it in the foreground so we can see any immediate output or errors.
