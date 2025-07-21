@@ -38,6 +38,7 @@ async def websocket_endpoint(websocket: WebSocket, job_id: str):
 async def read_root():
     return {"message": "Backend is running"}
 
+
 def get_websocket_sender(job_id: str):
     async def sender(data: dict):
         if job_id in connections and connections[job_id]:
