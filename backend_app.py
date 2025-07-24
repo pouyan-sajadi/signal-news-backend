@@ -57,7 +57,10 @@ async def read_root():
 def get_websocket_sender(job_id: str):
     async def sender(data: dict):
         if job_id in connections and connections[job_id]:
-            await connections[job_id].send_json(data)
+            try:
+                await connections[job_id].send_json(data)
+            except Exception as e:
+                logger.error(f"Error sending websocket message for job_id {job_id}: {e}")
     return sender
 
 if __name__ == "__main__":

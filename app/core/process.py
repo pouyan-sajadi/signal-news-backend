@@ -47,7 +47,7 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
         logger.info(f"🔍 Calling search_news function with refined topic: {refined_topic}")
         await notify({"step": "search", "status": "running", "message": f"🔍 Searching for: {refined_topic}"})
         search_start_time = time.time()
-        raw_news_json = search_news(refined_topic)
+        raw_news_json = await asyncio.to_thread(search_news, refined_topic)
         search_duration = time.time() - search_start_time
         logger.info(f"✅ search_news function execution took {search_duration:.2f} seconds.")
         
@@ -148,7 +148,6 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
         
         final_report_data = {
             "topic": topic,
-            "creative_report": creative_report,
             "agent_details": {
                 "search": raw_news_list,
                 "profiling": profiling_output,
