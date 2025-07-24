@@ -1,11 +1,26 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uuid
 import asyncio
 from app.core.process import process_news_backend
 from app.core.logger import logger
+import uvicorn
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000", # Allow your Next.js frontend
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class NewsRequest(BaseModel):
     topic: str
@@ -44,3 +59,6 @@ def get_websocket_sender(job_id: str):
         if job_id in connections and connections[job_id]:
             await connections[job_id].send_json(data)
     return sender
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

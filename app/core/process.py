@@ -145,7 +145,19 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
             messages=[{"role": "user", "content": f"Rewrite this report:\n{final_report}"}]
         )
         creative_report = creative_response.messages[-1]["content"]
-        await notify({"step": "editing", "status": "completed", "data": creative_report})
+        
+        final_report_data = {
+            "topic": topic,
+            "creative_report": creative_report,
+            "agent_details": {
+                "search": raw_news_list,
+                "profiling": profiling_output,
+                "selection": selected_articles,
+                "synthesis": final_report,
+                "editing": creative_report # Store the final creative report here too
+            }
+        }
+        await notify({"step": "editing", "status": "completed", "data": final_report_data})
     except Exception as e:
         logger.exception("Error in Editing step")
         await notify({"step": "error", "message": f"Editing failed: {e}"})
