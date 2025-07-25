@@ -12,6 +12,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:3000", # Allow your Next.js frontend
+    "http://localhost:5173", # Allow the new SignalHub Vite frontend
 ]
 
 app.add_middleware(

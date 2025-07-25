@@ -13,6 +13,7 @@ venv/
 
 # Logs
 *.log
+app.log
 
 # OS generated files
 .DS_Store

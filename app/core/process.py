@@ -24,6 +24,8 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
     focus = user_preferences.get("focus", "Just the Facts")
     depth = user_preferences.get("depth", 2)
     tone = user_preferences.get("tone", "News with attitude")
+    if tone not in ["Grandma Mode", "News with attitude", "Gen Z Mode", "Sharp & Snappy"]:
+        tone = "News with attitude"
     
     os.makedirs("news_output", exist_ok=True)
 

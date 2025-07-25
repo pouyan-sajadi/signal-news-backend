@@ -405,3 +405,301 @@ AttributeError: 'Swarm' object has no attribute 'run_async'
 2025-07-24 10:20:47,349 [INFO] ✅ search_news function execution took 1.13 seconds.
 2025-07-24 10:20:47,349 [ERROR] Failed to decode JSON from search_news output: No news found for teeesfsf.
 2025-07-24 10:20:47,355 [INFO] WebSocket connection closed for job_id: 965b62ea-a8fc-4b0b-b3d5-a50021e7808a
+2025-07-24 10:45:55,385 [INFO] WebSocket connection closed for job_id: d4f32b9d-d9f8-46da-9289-3a1819d00efe
+2025-07-24 15:04:56,485 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-24 15:04:56,485 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 11:23:52,672 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 11:23:52,672 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 11:37:33,209 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 11:37:33,209 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 11:38:04,613 [INFO] Received request for topic: hi
+2025-07-25 11:38:04,614 [INFO] Created job_id: 72897c59-e9c1-4cb6-b356-ad630a824364
+2025-07-25 11:38:04,615 [INFO] 🔍 Refining search query...
+2025-07-25 11:38:04,635 [INFO] WebSocket connection established for job_id: 72897c59-e9c1-4cb6-b356-ad630a824364
+2025-07-25 11:38:05,748 [INFO] 🤖 Search query refined in 1.13 seconds. New query: 
+2025-07-25 11:38:05,748 [INFO] Checking if topics are identical: False
+2025-07-25 11:38:05,748 [INFO] 🔍 Calling search_news function with refined topic: 
+2025-07-25 11:38:09,524 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 11:38:10,135 [INFO] ✅ search_news function execution took 4.39 seconds.
+2025-07-25 11:38:10,136 [INFO] Found 10 articles.
+2025-07-25 11:38:10,137 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 11:38:36,463 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 11:38:41,884 [INFO] Selected 8 articles.
+2025-07-25 11:38:41,888 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 11:38:55,574 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 11:38:55,577 [ERROR] Error in Editing step
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/core/process.py", line 141, in process_news_backend
+    creative_editor_agent_instance = create_creative_editor_agent(focus, depth, tone)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/agents/agent_factory.py", line 34, in create_creative_editor_agent
+    return Agent(
+           ^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pydantic/main.py", line 212, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 2 validation errors for Agent
+instructions.str
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.9/v/string_type
+instructions.callable
+  Input should be callable [type=callable_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.9/v/callable_type
+2025-07-25 11:39:38,201 [INFO] WebSocket connection closed for job_id: 72897c59-e9c1-4cb6-b356-ad630a824364
+2025-07-25 11:53:38,026 [INFO] Received request for topic: ai
+2025-07-25 11:53:38,027 [INFO] Created job_id: 077f694e-29aa-4105-ab7a-adf8b59eac98
+2025-07-25 11:53:38,029 [INFO] 🔍 Refining search query...
+2025-07-25 11:53:38,045 [INFO] WebSocket connection established for job_id: 077f694e-29aa-4105-ab7a-adf8b59eac98
+2025-07-25 11:53:38,717 [INFO] 🤖 Search query refined in 0.69 seconds. New query: AI
+2025-07-25 11:53:38,717 [INFO] Checking if topics are identical: True
+2025-07-25 11:53:38,717 [INFO] 🔍 Calling search_news function with refined topic: AI
+2025-07-25 11:53:40,389 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 11:53:41,455 [INFO] ✅ search_news function execution took 2.74 seconds.
+2025-07-25 11:53:41,455 [INFO] Found 10 articles.
+2025-07-25 11:53:41,457 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 11:54:13,953 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 11:54:18,155 [INFO] Selected 8 articles.
+2025-07-25 11:54:18,157 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 11:54:33,764 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 11:54:33,767 [ERROR] Error in Editing step
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/core/process.py", line 141, in process_news_backend
+    creative_editor_agent_instance = create_creative_editor_agent(focus, depth, tone)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/agents/agent_factory.py", line 34, in create_creative_editor_agent
+    return Agent(
+           ^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pydantic/main.py", line 212, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 2 validation errors for Agent
+instructions.str
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.9/v/string_type
+instructions.callable
+  Input should be callable [type=callable_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.9/v/callable_type
+2025-07-25 11:55:25,818 [INFO] WebSocket connection closed for job_id: 077f694e-29aa-4105-ab7a-adf8b59eac98
+2025-07-25 11:56:01,756 [INFO] Received request for topic: hi
+2025-07-25 11:56:01,760 [INFO] Created job_id: 9cb1dec3-131f-49b2-a7ad-d113c67307ff
+2025-07-25 11:56:01,761 [INFO] 🔍 Refining search query...
+2025-07-25 11:56:01,770 [INFO] WebSocket connection established for job_id: 9cb1dec3-131f-49b2-a7ad-d113c67307ff
+2025-07-25 11:56:02,327 [INFO] 🤖 Search query refined in 0.57 seconds. New query: 
+2025-07-25 11:56:02,327 [INFO] Checking if topics are identical: False
+2025-07-25 11:56:02,327 [INFO] 🔍 Calling search_news function with refined topic: 
+2025-07-25 11:56:02,410 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 11:56:02,973 [INFO] ✅ search_news function execution took 0.65 seconds.
+2025-07-25 11:56:02,973 [INFO] Found 10 articles.
+2025-07-25 11:56:02,974 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 11:56:13,752 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 11:56:19,964 [INFO] Selected 7 articles.
+2025-07-25 11:56:19,968 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 11:56:42,012 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 11:56:42,014 [ERROR] Error in Editing step
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/core/process.py", line 141, in process_news_backend
+    creative_editor_agent_instance = create_creative_editor_agent(focus, depth, tone)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/agents/agent_factory.py", line 34, in create_creative_editor_agent
+    return Agent(
+           ^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pydantic/main.py", line 212, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 2 validation errors for Agent
+instructions.str
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.9/v/string_type
+instructions.callable
+  Input should be callable [type=callable_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.9/v/callable_type
+2025-07-25 11:58:00,841 [INFO] WebSocket connection closed for job_id: 9cb1dec3-131f-49b2-a7ad-d113c67307ff
+2025-07-25 12:01:34,043 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 12:01:34,043 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 12:09:45,565 [INFO] Received request for topic: tech
+2025-07-25 12:09:45,566 [INFO] Created job_id: 01f474c8-027d-4344-8b59-88722c113254
+2025-07-25 12:09:45,567 [INFO] 🔍 Refining search query...
+2025-07-25 12:09:45,635 [INFO] WebSocket connection established for job_id: 01f474c8-027d-4344-8b59-88722c113254
+2025-07-25 12:09:46,414 [INFO] 🤖 Search query refined in 0.85 seconds. New query: tech
+2025-07-25 12:09:46,414 [INFO] Checking if topics are identical: True
+2025-07-25 12:09:46,415 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-07-25 12:09:52,245 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 12:09:53,262 [INFO] ✅ search_news function execution took 6.85 seconds.
+2025-07-25 12:09:53,262 [INFO] Found 10 articles.
+2025-07-25 12:09:53,265 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:10:17,135 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:10:19,753 [INFO] Selected 7 articles.
+2025-07-25 12:10:19,756 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:10:47,437 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:11:08,653 [INFO] WebSocket connection closed for job_id: 01f474c8-027d-4344-8b59-88722c113254
+2025-07-25 12:20:56,442 [INFO] Received request for topic: hi
+2025-07-25 12:20:56,443 [INFO] Created job_id: 51a24a28-7b06-417d-a68e-9fc77ae36ca4
+2025-07-25 12:20:56,444 [INFO] 🔍 Refining search query...
+2025-07-25 12:20:56,467 [INFO] WebSocket connection established for job_id: 51a24a28-7b06-417d-a68e-9fc77ae36ca4
+2025-07-25 12:20:56,931 [INFO] 🤖 Search query refined in 0.49 seconds. New query: hello
+2025-07-25 12:20:56,931 [INFO] Checking if topics are identical: False
+2025-07-25 12:20:56,931 [INFO] 🔍 Calling search_news function with refined topic: hello
+2025-07-25 12:20:59,999 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 12:21:00,795 [INFO] ✅ search_news function execution took 3.86 seconds.
+2025-07-25 12:21:00,795 [INFO] Found 10 articles.
+2025-07-25 12:21:00,796 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:21:14,039 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:21:18,128 [INFO] Selected 8 articles.
+2025-07-25 12:21:18,129 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:21:44,041 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:21:58,397 [INFO] WebSocket connection closed for job_id: 51a24a28-7b06-417d-a68e-9fc77ae36ca4
+2025-07-25 12:27:23,837 [INFO] Received request for topic: hi
+2025-07-25 12:27:23,839 [INFO] Created job_id: ea53d016-6324-449a-9485-f6e887b991d7
+2025-07-25 12:27:23,840 [INFO] 🔍 Refining search query...
+2025-07-25 12:27:23,929 [INFO] WebSocket connection established for job_id: ea53d016-6324-449a-9485-f6e887b991d7
+2025-07-25 12:27:24,295 [INFO] 🤖 Search query refined in 0.45 seconds. New query: hello
+2025-07-25 12:27:24,295 [INFO] Checking if topics are identical: False
+2025-07-25 12:27:24,295 [INFO] 🔍 Calling search_news function with refined topic: hello
+2025-07-25 12:27:24,401 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 12:27:25,390 [INFO] ✅ search_news function execution took 1.09 seconds.
+2025-07-25 12:27:25,391 [INFO] Found 10 articles.
+2025-07-25 12:27:25,391 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:27:28,301 [INFO] WebSocket connection closed for job_id: ea53d016-6324-449a-9485-f6e887b991d7
+2025-07-25 12:27:38,585 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:27:41,208 [INFO] Selected 6 articles.
+2025-07-25 12:27:41,209 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:27:59,651 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:36:06,281 [INFO] Received request for topic: ai
+2025-07-25 12:36:06,282 [INFO] Created job_id: d875a806-9808-47ce-8053-06d25e5ba757
+2025-07-25 12:36:06,283 [INFO] 🔍 Refining search query...
+2025-07-25 12:36:06,317 [INFO] WebSocket connection established for job_id: d875a806-9808-47ce-8053-06d25e5ba757
+2025-07-25 12:36:06,768 [INFO] 🤖 Search query refined in 0.49 seconds. New query: AI
+2025-07-25 12:36:06,769 [INFO] Checking if topics are identical: True
+2025-07-25 12:36:06,769 [INFO] 🔍 Calling search_news function with refined topic: AI
+2025-07-25 12:36:07,005 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 12:36:08,009 [INFO] ✅ search_news function execution took 1.24 seconds.
+2025-07-25 12:36:08,010 [INFO] Found 10 articles.
+2025-07-25 12:36:08,012 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:36:09,707 [INFO] WebSocket connection closed for job_id: d875a806-9808-47ce-8053-06d25e5ba757
+2025-07-25 12:36:22,251 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:36:22,440 [INFO] Received request for topic: hi
+2025-07-25 12:36:22,440 [INFO] Created job_id: 12cb2db9-3469-4cba-88d3-216aa5b1d0b5
+2025-07-25 12:36:22,441 [INFO] 🔍 Refining search query...
+2025-07-25 12:36:22,515 [INFO] WebSocket connection established for job_id: 12cb2db9-3469-4cba-88d3-216aa5b1d0b5
+2025-07-25 12:36:22,841 [INFO] 🤖 Search query refined in 0.40 seconds. New query: 
+2025-07-25 12:36:22,841 [INFO] Checking if topics are identical: False
+2025-07-25 12:36:22,841 [INFO] 🔍 Calling search_news function with refined topic: 
+2025-07-25 12:36:23,091 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 12:36:23,627 [INFO] ✅ search_news function execution took 0.79 seconds.
+2025-07-25 12:36:23,627 [INFO] Found 10 articles.
+2025-07-25 12:36:23,629 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:36:26,328 [INFO] Selected 8 articles.
+2025-07-25 12:36:26,328 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:36:39,403 [INFO] WebSocket connection closed for job_id: 12cb2db9-3469-4cba-88d3-216aa5b1d0b5
+2025-07-25 12:36:39,472 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:36:41,771 [INFO] Selected 7 articles.
+2025-07-25 12:36:41,771 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:36:43,529 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:36:51,344 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:39:28,094 [INFO] Received request for topic: c
+2025-07-25 12:39:28,095 [INFO] Created job_id: cf4d3402-4d02-4eb1-a1be-e5561ac015d2
+2025-07-25 12:39:28,097 [INFO] 🔍 Refining search query...
+2025-07-25 12:39:28,111 [INFO] WebSocket connection established for job_id: cf4d3402-4d02-4eb1-a1be-e5561ac015d2
+2025-07-25 12:39:28,702 [INFO] 🤖 Search query refined in 0.60 seconds. New query: c
+2025-07-25 12:39:28,702 [INFO] Checking if topics are identical: True
+2025-07-25 12:39:28,702 [INFO] 🔍 Calling search_news function with refined topic: c
+2025-07-25 12:39:31,875 [INFO] 🔍 Found 8 results from SerpAPI
+2025-07-25 12:39:32,897 [INFO] ✅ search_news function execution took 4.19 seconds.
+2025-07-25 12:39:32,897 [INFO] Found 8 articles.
+2025-07-25 12:39:32,898 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:39:46,622 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:39:48,778 [INFO] Selected 6 articles.
+2025-07-25 12:39:48,779 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:40:01,165 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:40:12,228 [INFO] WebSocket connection closed for job_id: cf4d3402-4d02-4eb1-a1be-e5561ac015d2
+2025-07-25 12:49:49,878 [INFO] Received request for topic: tech
+2025-07-25 12:49:49,879 [INFO] Created job_id: 79b4e18b-0080-4932-877e-f12b68392e6e
+2025-07-25 12:49:49,880 [INFO] 🔍 Refining search query...
+2025-07-25 12:49:49,903 [INFO] WebSocket connection established for job_id: 79b4e18b-0080-4932-877e-f12b68392e6e
+2025-07-25 12:49:50,383 [INFO] 🤖 Search query refined in 0.50 seconds. New query: tech
+2025-07-25 12:49:50,383 [INFO] Checking if topics are identical: True
+2025-07-25 12:49:50,383 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-07-25 12:49:50,654 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 12:49:51,715 [INFO] ✅ search_news function execution took 1.33 seconds.
+2025-07-25 12:49:51,715 [INFO] Found 10 articles.
+2025-07-25 12:49:51,717 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:50:06,049 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:50:07,477 [INFO] Selected 3 articles.
+2025-07-25 12:50:07,481 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:50:17,870 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:50:23,564 [INFO] WebSocket connection closed for job_id: 79b4e18b-0080-4932-877e-f12b68392e6e
+2025-07-25 12:52:45,368 [INFO] Received request for topic: hu
+2025-07-25 12:52:45,370 [INFO] Created job_id: dcb40d7d-505a-4fb1-856d-3a5c3e14783d
+2025-07-25 12:52:45,371 [INFO] 🔍 Refining search query...
+2025-07-25 12:52:45,409 [INFO] WebSocket connection established for job_id: dcb40d7d-505a-4fb1-856d-3a5c3e14783d
+2025-07-25 12:52:45,794 [INFO] 🤖 Search query refined in 0.42 seconds. New query: hu
+2025-07-25 12:52:45,794 [INFO] Checking if topics are identical: True
+2025-07-25 12:52:45,794 [INFO] 🔍 Calling search_news function with refined topic: hu
+2025-07-25 12:52:47,070 [INFO] WebSocket connection closed for job_id: dcb40d7d-505a-4fb1-856d-3a5c3e14783d
+2025-07-25 12:52:47,942 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 12:53:00,844 [INFO] ✅ search_news function execution took 15.05 seconds.
+2025-07-25 12:53:00,846 [INFO] Found 10 articles.
+2025-07-25 12:53:00,846 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:53:17,948 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:53:20,097 [INFO] Selected 7 articles.
+2025-07-25 12:53:20,097 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:53:36,803 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:53:38,032 [INFO] Received request for topic: climate change policies and environmental action 2024
+2025-07-25 12:53:38,033 [INFO] Created job_id: 00bfd167-c4ae-4d28-911e-35a63d847c0d
+2025-07-25 12:53:38,034 [INFO] 🔍 Refining search query...
+2025-07-25 12:53:38,072 [INFO] WebSocket connection established for job_id: 00bfd167-c4ae-4d28-911e-35a63d847c0d
+2025-07-25 12:53:38,530 [INFO] 🤖 Search query refined in 0.50 seconds. New query: climate change policies environmental action 2024
+2025-07-25 12:53:38,530 [INFO] Checking if topics are identical: False
+2025-07-25 12:53:38,531 [INFO] 🔍 Calling search_news function with refined topic: climate change policies environmental action 2024
+2025-07-25 12:53:40,063 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 12:53:41,906 [INFO] ✅ search_news function execution took 3.38 seconds.
+2025-07-25 12:53:41,906 [INFO] Found 10 articles.
+2025-07-25 12:53:41,911 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 12:53:56,045 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 12:53:59,206 [INFO] Selected 7 articles.
+2025-07-25 12:53:59,212 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 12:54:18,465 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 12:54:36,307 [INFO] WebSocket connection closed for job_id: 00bfd167-c4ae-4d28-911e-35a63d847c0d
+2025-07-25 12:56:29,805 [INFO] Received request for topic: you
+2025-07-25 12:56:29,807 [INFO] Created job_id: 6d50a46f-8eba-4e1c-aa8c-ea5eaf9e8ea9
+2025-07-25 12:56:29,808 [INFO] 🔍 Refining search query...
+2025-07-25 12:56:29,842 [INFO] WebSocket connection established for job_id: 6d50a46f-8eba-4e1c-aa8c-ea5eaf9e8ea9
+2025-07-25 12:56:30,152 [INFO] 🤖 Search query refined in 0.34 seconds. New query: you
+2025-07-25 12:56:30,153 [INFO] Checking if topics are identical: True
+2025-07-25 12:56:30,153 [INFO] 🔍 Calling search_news function with refined topic: you
+2025-07-25 12:56:31,835 [INFO] 🔍 Found 0 results from SerpAPI
+2025-07-25 12:56:31,835 [INFO] ✅ search_news function execution took 1.68 seconds.
+2025-07-25 12:56:31,836 [ERROR] Failed to decode JSON from search_news output: No news found for you.
+2025-07-25 12:56:31,839 [INFO] WebSocket connection closed for job_id: 6d50a46f-8eba-4e1c-aa8c-ea5eaf9e8ea9
+2025-07-25 13:02:24,133 [INFO] Received request for topic: hu
+2025-07-25 13:02:24,135 [INFO] Created job_id: e2cd2640-1a5b-4128-9709-0aab39ac78d8
+2025-07-25 13:02:24,135 [INFO] 🔍 Refining search query...
+2025-07-25 13:02:24,219 [INFO] WebSocket connection established for job_id: e2cd2640-1a5b-4128-9709-0aab39ac78d8
+2025-07-25 13:02:24,561 [INFO] 🤖 Search query refined in 0.43 seconds. New query: hu
+2025-07-25 13:02:24,561 [INFO] Checking if topics are identical: True
+2025-07-25 13:02:24,561 [INFO] 🔍 Calling search_news function with refined topic: hu
+2025-07-25 13:02:24,770 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 13:02:36,043 [INFO] ✅ search_news function execution took 11.48 seconds.
+2025-07-25 13:02:36,044 [INFO] Found 10 articles.
+2025-07-25 13:02:36,047 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 13:02:56,207 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 13:02:58,383 [INFO] Selected 7 articles.
+2025-07-25 13:02:58,389 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 13:03:16,385 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 13:03:29,703 [INFO] WebSocket connection closed for job_id: e2cd2640-1a5b-4128-9709-0aab39ac78d8
+2025-07-25 13:04:08,978 [INFO] Received request for topic: tech
+2025-07-25 13:04:08,980 [INFO] Created job_id: 7ba0168f-39c7-4419-bf5d-05102740882e
+2025-07-25 13:04:08,981 [INFO] 🔍 Refining search query...
+2025-07-25 13:04:09,014 [INFO] WebSocket connection established for job_id: 7ba0168f-39c7-4419-bf5d-05102740882e
+2025-07-25 13:04:09,478 [INFO] 🤖 Search query refined in 0.50 seconds. New query: tech
+2025-07-25 13:04:09,478 [INFO] Checking if topics are identical: True
+2025-07-25 13:04:09,479 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-07-25 13:04:09,745 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 13:04:10,825 [INFO] ✅ search_news function execution took 1.35 seconds.
+2025-07-25 13:04:10,825 [INFO] Found 10 articles.
+2025-07-25 13:04:10,828 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 13:04:24,392 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 13:04:25,581 [INFO] Selected 3 articles.
+2025-07-25 13:04:25,582 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 13:04:33,282 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 13:04:50,554 [INFO] WebSocket connection closed for job_id: 7ba0168f-39c7-4419-bf5d-05102740882e
