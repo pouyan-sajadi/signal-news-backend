@@ -735,3 +735,710 @@ instructions.callable
 2025-07-25 17:29:45,252 [INFO] 🗣️ Running Debate Synthesizer Agent...
 2025-07-25 17:29:50,608 [INFO] 🎨 Running Creative Editor Agent...
 2025-07-25 17:29:54,538 [INFO] WebSocket connection closed for job_id: dbf1d053-f0fa-4696-9040-0d747db2b153
+2025-07-26 10:12:49,230 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 10:12:49,230 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 10:15:40,103 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 10:15:40,103 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 10:19:41,509 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 10:19:41,510 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 10:27:23,831 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 10:27:23,832 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 10:27:24,197 [INFO] Connected to MongoDB: mongodb://localhost:27017/, Database: signal_app_db
+2025-07-26 10:29:03,602 [INFO] MongoDB connection closed.
+2025-07-26 10:30:35,629 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 10:30:35,629 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 10:30:35,935 [INFO] Connected to MongoDB: mongodb://localhost:27017/, Database: signal_app_db
+2025-07-26 10:31:25,148 [INFO] MongoDB connection closed.
+2025-07-26 10:31:51,558 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 10:31:51,559 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 10:31:51,861 [INFO] Connected to MongoDB: mongodb://localhost:27017/, Database: signal_app_db
+2025-07-26 10:33:46,449 [INFO] Received request for topic: hy
+2025-07-26 10:33:46,450 [INFO] Created job_id: ca993448-b5b7-47c6-a22e-62cc4edb2131
+2025-07-26 10:33:46,453 [INFO] 🔍 Refining search query...
+2025-07-26 10:33:46,462 [INFO] WebSocket connection established for job_id: ca993448-b5b7-47c6-a22e-62cc4edb2131
+2025-07-26 10:33:47,905 [INFO] 🤖 Search query refined in 1.45 seconds. New query: hy
+2025-07-26 10:33:47,905 [INFO] Checking if topics are identical: True
+2025-07-26 10:33:47,905 [INFO] 🔍 Calling search_news function with refined topic: hy
+2025-07-26 10:33:49,232 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-26 10:33:50,462 [INFO] ✅ search_news function execution took 2.56 seconds.
+2025-07-26 10:33:50,462 [INFO] Found 10 articles.
+2025-07-26 10:33:50,463 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-26 10:34:04,295 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-26 10:34:06,465 [INFO] Selected 7 articles.
+2025-07-26 10:34:06,465 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-26 10:34:10,126 [ERROR] Error fetching report history
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 75, in get_report_history
+    for report in await asyncio.to_thread(list, reports_cursor):
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 688511074971cd346c4ae386, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-07-26 10:34:10,137 [ERROR] Error fetching report history
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 75, in get_report_history
+    for report in await asyncio.to_thread(list, reports_cursor):
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 688511074971cd346c4ae386, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-07-26 10:34:21,110 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-26 10:34:34,401 [ERROR] Error saving report to database: 'job_id'
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/core/process.py", line 167, in process_news_backend
+    job_id=final_report_data["job_id"],
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'job_id'
+2025-07-26 10:34:34,409 [INFO] WebSocket connection closed for job_id: ca993448-b5b7-47c6-a22e-62cc4edb2131
+2025-07-26 10:35:04,608 [ERROR] Error fetching report hy
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 87, in get_single_report
+    report = await asyncio.to_thread(db_client.db["reports"].find_one, {"job_id": job_id}, {"_id": 0})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/collection.py", line 1495, in find_one
+    for result in cursor.limit(-1):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 688511074971cd346c4ae386, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-07-26 10:35:04,620 [ERROR] Error fetching report history
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 75, in get_report_history
+    for report in await asyncio.to_thread(list, reports_cursor):
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 688511074971cd346c4ae386, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-07-26 10:35:04,623 [ERROR] Error fetching report hy
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 87, in get_single_report
+    report = await asyncio.to_thread(db_client.db["reports"].find_one, {"job_id": job_id}, {"_id": 0})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/collection.py", line 1495, in find_one
+    for result in cursor.limit(-1):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 688511074971cd346c4ae386, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-07-26 10:35:04,625 [ERROR] Error fetching report history
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 75, in get_report_history
+    for report in await asyncio.to_thread(list, reports_cursor):
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 688511074971cd346c4ae386, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-07-26 10:35:24,294 [ERROR] Error fetching report history
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 75, in get_report_history
+    for report in await asyncio.to_thread(list, reports_cursor):
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 688511074971cd346c4ae386, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-07-26 10:35:24,302 [ERROR] Error fetching report history
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 75, in get_report_history
+    for report in await asyncio.to_thread(list, reports_cursor):
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv/lib/python3.11/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 688511074971cd346c4ae386, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-07-26 10:43:46,925 [INFO] Fetched 0 reports from history.
+2025-07-26 10:43:46,935 [INFO] Fetched 0 reports from history.
+2025-07-26 10:43:54,815 [INFO] Received request for topic: tech
+2025-07-26 10:43:54,819 [INFO] Created job_id: 044b4c51-9de2-4ed6-a9d7-ac602a32abcd
+2025-07-26 10:43:54,823 [INFO] 🔍 Refining search query...
+2025-07-26 10:43:54,844 [INFO] WebSocket connection established for job_id: 044b4c51-9de2-4ed6-a9d7-ac602a32abcd
+2025-07-26 10:43:55,273 [INFO] 🤖 Search query refined in 0.45 seconds. New query: tech
+2025-07-26 10:43:55,273 [INFO] Checking if topics are identical: True
+2025-07-26 10:43:55,274 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-07-26 10:43:57,382 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-26 10:43:59,106 [INFO] ✅ search_news function execution took 3.83 seconds.
+2025-07-26 10:43:59,106 [INFO] Found 10 articles.
+2025-07-26 10:43:59,108 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-26 10:44:05,721 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-26 10:44:08,787 [INFO] Selected 8 articles.
+2025-07-26 10:44:08,790 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-26 10:44:31,835 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-26 10:44:48,021 [ERROR] Error saving report to database: 'job_id'
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/app/core/process.py", line 167, in process_news_backend
+    job_id=final_report_data["job_id"],
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'job_id'
+2025-07-26 10:44:48,035 [INFO] WebSocket connection closed for job_id: 044b4c51-9de2-4ed6-a9d7-ac602a32abcd
+2025-07-26 10:44:48,098 [INFO] Fetched 0 reports from history.
+2025-07-26 10:44:48,099 [WARNING] Report with job_id tech not found.
+2025-07-26 10:44:48,100 [ERROR] Error fetching report tech
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 93, in get_single_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-07-26 10:44:48,101 [INFO] Fetched 0 reports from history.
+2025-07-26 10:44:48,101 [WARNING] Report with job_id tech not found.
+2025-07-26 10:44:48,101 [ERROR] Error fetching report tech
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 93, in get_single_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-07-26 10:44:48,172 [INFO] Fetched 0 reports from history.
+2025-07-26 10:44:48,173 [INFO] Fetched 0 reports from history.
+2025-07-26 10:51:13,494 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 10:51:13,495 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 10:51:13,809 [INFO] Connected to MongoDB: mongodb://localhost:27017/, Database: signal_app_db
+2025-07-26 10:51:37,560 [INFO] MongoDB connection closed.
+2025-07-26 10:52:35,083 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 10:52:35,083 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 10:52:35,374 [INFO] Connected to MongoDB: mongodb://localhost:27017/, Database: signal_app_db
+2025-07-26 10:52:48,399 [INFO] Fetched 0 reports from history.
+2025-07-26 10:52:48,402 [INFO] Fetched 0 reports from history.
+2025-07-26 10:53:01,447 [INFO] Received request for topic: tech
+2025-07-26 10:53:01,448 [INFO] Created job_id: 986ae791-460c-4884-9aa1-74030b665bb2
+2025-07-26 10:53:01,449 [INFO] 🔍 Refining search query...
+2025-07-26 10:53:01,494 [INFO] WebSocket connection established for job_id: 986ae791-460c-4884-9aa1-74030b665bb2
+2025-07-26 10:53:02,071 [INFO] 🤖 Search query refined in 0.62 seconds. New query: tech
+2025-07-26 10:53:02,071 [INFO] Checking if topics are identical: True
+2025-07-26 10:53:02,071 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-07-26 10:53:02,330 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-26 10:53:03,393 [INFO] ✅ search_news function execution took 1.32 seconds.
+2025-07-26 10:53:03,393 [INFO] Found 10 articles.
+2025-07-26 10:53:03,395 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-26 10:53:11,884 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-26 10:53:13,169 [INFO] Selected 3 articles.
+2025-07-26 10:53:13,170 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-26 10:53:20,786 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-26 10:53:28,902 [INFO] Report 986ae791-460c-4884-9aa1-74030b665bb2 saved to database.
+2025-07-26 10:53:28,908 [INFO] WebSocket connection closed for job_id: 986ae791-460c-4884-9aa1-74030b665bb2
+2025-07-26 10:53:28,965 [INFO] Fetched 1 reports from history.
+2025-07-26 10:53:28,967 [WARNING] Report with job_id tech not found.
+2025-07-26 10:53:28,968 [ERROR] Error fetching report tech
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 93, in get_single_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-07-26 10:53:28,971 [WARNING] Report with job_id tech not found.
+2025-07-26 10:53:28,971 [ERROR] Error fetching report tech
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 93, in get_single_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-07-26 10:53:28,972 [INFO] Fetched 1 reports from history.
+2025-07-26 10:53:29,025 [INFO] Fetched 1 reports from history.
+2025-07-26 10:53:29,026 [INFO] Fetched 1 reports from history.
+2025-07-26 10:54:58,692 [INFO] Fetched 1 reports from history.
+2025-07-26 10:54:58,694 [INFO] Fetched 1 reports from history.
+2025-07-26 10:55:05,688 [INFO] Received request for topic: tech
+2025-07-26 10:55:05,689 [INFO] Created job_id: be6a8474-f449-4c1b-9fe1-dedd360080c1
+2025-07-26 10:55:05,690 [INFO] 🔍 Refining search query...
+2025-07-26 10:55:05,731 [INFO] WebSocket connection established for job_id: be6a8474-f449-4c1b-9fe1-dedd360080c1
+2025-07-26 10:55:06,324 [INFO] 🤖 Search query refined in 0.63 seconds. New query: tech
+2025-07-26 10:55:06,324 [INFO] Checking if topics are identical: True
+2025-07-26 10:55:06,324 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-07-26 10:55:06,402 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-26 10:55:07,594 [INFO] ✅ search_news function execution took 1.27 seconds.
+2025-07-26 10:55:07,594 [INFO] Found 10 articles.
+2025-07-26 10:55:07,596 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-26 10:55:22,588 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-26 10:55:24,189 [INFO] Selected 3 articles.
+2025-07-26 10:55:24,191 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-26 10:55:31,496 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-26 10:55:38,874 [INFO] Report be6a8474-f449-4c1b-9fe1-dedd360080c1 saved to database.
+2025-07-26 10:55:38,878 [INFO] WebSocket connection closed for job_id: be6a8474-f449-4c1b-9fe1-dedd360080c1
+2025-07-26 10:55:38,897 [INFO] Fetched 2 reports from history.
+2025-07-26 10:55:38,897 [INFO] Fetched 2 reports from history.
+2025-07-26 10:55:38,911 [WARNING] Report with job_id tech not found.
+2025-07-26 10:55:38,911 [ERROR] Error fetching report tech
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 93, in get_single_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-07-26 10:55:38,911 [WARNING] Report with job_id tech not found.
+2025-07-26 10:55:38,911 [ERROR] Error fetching report tech
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 93, in get_single_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-07-26 10:55:38,928 [INFO] Fetched 2 reports from history.
+2025-07-26 10:55:38,928 [INFO] Fetched 2 reports from history.
+2025-07-26 10:55:49,227 [INFO] Fetched report with job_id: be6a8474-f449-4c1b-9fe1-dedd360080c1
+2025-07-26 10:55:49,228 [INFO] Fetched report with job_id: be6a8474-f449-4c1b-9fe1-dedd360080c1
+2025-07-26 10:57:32,946 [INFO] Fetched 2 reports from history.
+2025-07-26 10:57:32,948 [INFO] Fetched 2 reports from history.
+2025-07-26 10:57:38,013 [INFO] Fetched report with job_id: 986ae791-460c-4884-9aa1-74030b665bb2
+2025-07-26 10:57:38,014 [INFO] Fetched report with job_id: 986ae791-460c-4884-9aa1-74030b665bb2
+2025-07-26 10:57:52,078 [INFO] Fetched 2 reports from history.
+2025-07-26 10:57:52,079 [INFO] Fetched 2 reports from history.
+2025-07-26 10:58:03,530 [INFO] Received request for topic: ai
+2025-07-26 10:58:03,530 [INFO] Created job_id: 1c526f1d-ce3c-474c-a3f0-69c04ef04b57
+2025-07-26 10:58:03,531 [INFO] 🔍 Refining search query...
+2025-07-26 10:58:03,550 [INFO] WebSocket connection established for job_id: 1c526f1d-ce3c-474c-a3f0-69c04ef04b57
+2025-07-26 10:58:03,868 [INFO] 🤖 Search query refined in 0.34 seconds. New query: ai
+2025-07-26 10:58:03,868 [INFO] Checking if topics are identical: True
+2025-07-26 10:58:03,868 [INFO] 🔍 Calling search_news function with refined topic: ai
+2025-07-26 10:58:04,805 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-26 10:58:07,757 [INFO] ✅ search_news function execution took 3.89 seconds.
+2025-07-26 10:58:07,757 [INFO] Found 10 articles.
+2025-07-26 10:58:07,760 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-26 10:58:23,694 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-26 10:58:24,755 [INFO] Selected 3 articles.
+2025-07-26 10:58:24,756 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-26 10:58:30,597 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-26 10:58:36,133 [INFO] Report 1c526f1d-ce3c-474c-a3f0-69c04ef04b57 saved to database.
+2025-07-26 10:58:36,136 [INFO] WebSocket connection closed for job_id: 1c526f1d-ce3c-474c-a3f0-69c04ef04b57
+2025-07-26 10:58:36,156 [INFO] Fetched 3 reports from history.
+2025-07-26 10:58:36,157 [INFO] Fetched 3 reports from history.
+2025-07-26 10:58:36,165 [WARNING] Report with job_id ai not found.
+2025-07-26 10:58:36,165 [ERROR] Error fetching report ai
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 93, in get_single_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-07-26 10:58:36,166 [WARNING] Report with job_id ai not found.
+2025-07-26 10:58:36,166 [ERROR] Error fetching report ai
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/backend_app.py", line 93, in get_single_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-07-26 10:58:36,184 [INFO] Fetched 3 reports from history.
+2025-07-26 10:58:36,185 [INFO] Fetched 3 reports from history.
+2025-07-26 10:59:20,316 [INFO] Fetched report with job_id: 1c526f1d-ce3c-474c-a3f0-69c04ef04b57
+2025-07-26 10:59:20,317 [INFO] Fetched report with job_id: 1c526f1d-ce3c-474c-a3f0-69c04ef04b57
+2025-07-26 11:01:01,380 [INFO] Fetched 3 reports from history.
+2025-07-26 11:01:01,383 [INFO] Fetched 3 reports from history.
+2025-07-26 11:04:00,565 [INFO] Fetched 3 reports from history.
+2025-07-26 11:07:52,095 [INFO] Fetched 3 reports from history.
+2025-07-26 11:09:20,828 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-26 11:09:20,829 [INFO] Got OPENAI_API_KEY from environment
+2025-07-26 11:09:21,135 [INFO] Connected to MongoDB: mongodb://localhost:27017/, Database: signal_app_db
+2025-07-26 11:09:55,125 [INFO] Fetched 3 reports from history.
+2025-07-26 11:09:55,133 [INFO] Fetched 3 reports from history.
+2025-07-26 11:10:03,788 [INFO] Received request for topic: tech
+2025-07-26 11:10:03,788 [INFO] Created job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3
+2025-07-26 11:10:03,790 [INFO] 🔍 Refining search query...
+2025-07-26 11:10:03,834 [INFO] WebSocket connection established for job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3
+2025-07-26 11:10:04,666 [INFO] 🤖 Search query refined in 0.88 seconds. New query: tech
+2025-07-26 11:10:04,666 [INFO] Checking if topics are identical: True
+2025-07-26 11:10:04,666 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-07-26 11:10:04,877 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-26 11:10:05,984 [INFO] ✅ search_news function execution took 1.32 seconds.
+2025-07-26 11:10:05,984 [INFO] Found 10 articles.
+2025-07-26 11:10:05,986 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-26 11:10:23,273 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-26 11:10:25,156 [INFO] Selected 3 articles.
+2025-07-26 11:10:25,157 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-26 11:10:33,242 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-26 11:10:42,307 [INFO] Report a618b8cb-eeae-44bc-b237-b6fa305b75c3 saved to database.
+2025-07-26 11:10:42,312 [INFO] WebSocket connection closed for job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3
+2025-07-26 11:10:42,387 [INFO] Fetched 4 reports from history.
+2025-07-26 11:10:42,389 [INFO] Fetched 4 reports from history.
+2025-07-26 11:10:42,390 [INFO] Fetched report with job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3
+2025-07-26 11:10:42,391 [INFO] Fetched report with job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3
+2025-07-26 11:11:09,232 [INFO] Fetched 4 reports from history.
+2025-07-26 11:11:09,234 [INFO] Fetched 4 reports from history.
+2025-07-26 11:11:15,158 [INFO] Fetched 4 reports from history.
+2025-07-26 11:11:15,169 [INFO] Fetched 4 reports from history.
+2025-07-26 11:11:53,068 [INFO] Fetched report with job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3
+2025-07-26 11:11:53,079 [INFO] Fetched report with job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3
+2025-07-26 11:13:22,225 [INFO] Fetched 4 reports from history.
+2025-07-26 11:13:22,230 [INFO] Fetched 4 reports from history.
+2025-07-26 11:13:24,979 [INFO] Fetched report with job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3
+2025-07-26 11:13:24,981 [INFO] Fetched report with job_id: a618b8cb-eeae-44bc-b237-b6fa305b75c3

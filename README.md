@@ -7,6 +7,7 @@ This directory contains the FastAPI backend for the Signal news processing appli
 *   **HTTP API:** Exposes a `/process_news` endpoint to initiate news processing.
 *   **WebSocket API:** Provides a `/ws/status/{job_id}` endpoint for real-time status updates and final report delivery.
 *   **Agent-based Processing:** Utilizes AI agents for search query refinement, source profiling, diversity selection, debate synthesis, and creative editing.
+*   **Persistent Report History:** Integrates with MongoDB to store and retrieve generated reports.
 *   **Secret Management:** Securely loads API keys from environment variables (supports `.env` for local development).
 
 ## Setup and Installation
@@ -27,7 +28,16 @@ This directory contains the FastAPI backend for the Signal news processing appli
     pip install -r requirements.txt
     ```
 
-4.  **Configure API Keys:**
+4.  **Install and Start MongoDB:**
+    If you don't have MongoDB running locally, you can install it via Homebrew (on macOS):
+    ```bash
+    brew tap mongodb/brew
+    brew install mongodb-community
+    brew services start mongodb-community
+    ```
+    For other operating systems or detailed installation instructions, refer to the [MongoDB documentation](https://docs.mongodb.com/manual/installation/).
+
+5.  **Configure API Keys:**
     Create a `.env` file in the `signal-app-backend` directory (the same directory as `backend_app.py`) and add your API keys:
     ```
     OPENAI_API_KEY="your_openai_api_key_here"

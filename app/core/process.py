@@ -12,10 +12,11 @@ from app.agents.agent_factory import (
 from swarm import Swarm
 from app.core.logger import logger
 from app.core.utils import search_news
+from app.core.database import db_client, Report
 
 client = Swarm()
 
-async def process_news_backend(topic, user_preferences, websocket_sender):
+async def process_news_backend(job_id, topic, user_preferences, websocket_sender):
     """Run the news processing workflow, using a websocket to stream results."""
 
     async def notify(data):
@@ -149,6 +150,7 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
         creative_report = creative_response.messages[-1]["content"]
         
         final_report_data = {
+            "job_id": job_id,
             "topic": topic,
             "agent_details": {
                 "search": raw_news_list,
@@ -159,6 +161,22 @@ async def process_news_backend(topic, user_preferences, websocket_sender):
             }
         }
         await notify({"step": "editing", "status": "completed", "data": final_report_data})
+
+        # Save report to database
+        try:
+            report_entry = Report(
+                job_id=final_report_data["job_id"],
+                topic=final_report_data["topic"],
+                user_preferences=user_preferences,
+                final_report_data=final_report_data["agent_details"]
+            )
+            db_client.db["reports"].insert_one(report_entry.model_dump(by_alias=True))
+            logger.info(f'Report {final_report_data["job_id"]} saved to database.')
+        except Exception as db_e:
+            logger.exception(f"Error saving report to database: {db_e}")
+            await notify({"step": "error", "message": f"Failed to save report to database: {db_e}"})
+            return False
+
     except Exception as e:
         logger.exception("Error in Editing step")
         await notify({"step": "error", "message": f"Editing failed: {e}"})

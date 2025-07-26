@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from app.core.logger import logger
+from app.core.database import db_client
 
 # Always try to load .env for local development
 try:
@@ -23,3 +24,9 @@ OPENAI_API_KEY = get_secret("OPENAI_API_KEY")
 #MODEL = "gpt-4o-mini"
 MODEL = "gpt-4.1-mini-2025-04-14"
 NUM_SOURCES = 10
+
+def connect_db():
+    db_client.connect()
+
+def close_db():
+    db_client.close()
