@@ -703,3 +703,35 @@ instructions.callable
 2025-07-25 13:04:25,582 [INFO] 🗣️ Running Debate Synthesizer Agent...
 2025-07-25 13:04:33,282 [INFO] 🎨 Running Creative Editor Agent...
 2025-07-25 13:04:50,554 [INFO] WebSocket connection closed for job_id: 7ba0168f-39c7-4419-bf5d-05102740882e
+2025-07-25 15:19:09,331 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 15:19:09,331 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 15:19:33,964 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 15:19:33,964 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 15:21:05,131 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 15:21:05,131 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 15:23:23,513 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 15:23:23,514 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 17:11:06,164 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 17:11:06,165 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 17:11:27,045 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 17:11:27,045 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 17:13:55,587 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 17:13:55,587 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 17:24:38,604 [INFO] Got SERPAPI_API_KEY from environment
+2025-07-25 17:24:38,604 [INFO] Got OPENAI_API_KEY from environment
+2025-07-25 17:29:27,565 [INFO] Received request for topic: tech
+2025-07-25 17:29:27,566 [INFO] Created job_id: dbf1d053-f0fa-4696-9040-0d747db2b153
+2025-07-25 17:29:27,566 [INFO] 🔍 Refining search query...
+2025-07-25 17:29:27,618 [INFO] WebSocket connection established for job_id: dbf1d053-f0fa-4696-9040-0d747db2b153
+2025-07-25 17:29:28,720 [INFO] 🤖 Search query refined in 1.15 seconds. New query: tech
+2025-07-25 17:29:28,721 [INFO] Checking if topics are identical: True
+2025-07-25 17:29:28,721 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-07-25 17:29:34,201 [INFO] 🔍 Found 10 results from SerpAPI
+2025-07-25 17:29:35,248 [INFO] ✅ search_news function execution took 6.53 seconds.
+2025-07-25 17:29:35,248 [INFO] Found 10 articles.
+2025-07-25 17:29:35,249 [INFO] 🧠 Running Source Profiler Agent...
+2025-07-25 17:29:43,889 [INFO] 🧮 Running Diversity Selector Agent...
+2025-07-25 17:29:45,250 [INFO] Selected 3 articles.
+2025-07-25 17:29:45,252 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-07-25 17:29:50,608 [INFO] 🎨 Running Creative Editor Agent...
+2025-07-25 17:29:54,538 [INFO] WebSocket connection closed for job_id: dbf1d053-f0fa-4696-9040-0d747db2b153

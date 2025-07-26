@@ -44,7 +44,7 @@ To start the FastAPI server:
 cd signal-app-backend
 # Activate your virtual environment if not already active
 source venv/bin/activate
-# Run the Uvicorn server in the background
+# Run the Uvicorn server in the background (using &)
 ./venv/bin/uvicorn backend_app:app --host 0.0.0.0 --port 8000 &
 ```
 
