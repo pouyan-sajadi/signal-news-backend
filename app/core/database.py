@@ -20,6 +20,7 @@ class AgentDetails(BaseModel):
 class Report(BaseModel):
     job_id: str = Field(...)
     topic: str = Field(...)
+    refined_topic: Optional[str] = None
     user_preferences: ReportPreferences
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     final_report_data: AgentDetails

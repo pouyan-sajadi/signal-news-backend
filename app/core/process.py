@@ -48,7 +48,7 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
 
         # Step 2: Search
         logger.info(f"🔍 Calling search_news function with refined topic: {refined_topic}")
-        await notify({"step": "search", "status": "running", "message": f"🔍 Searching for: {refined_topic}"})
+        await notify({"step": "search", "status": "running", "message": f"🔍 Searching for: {refined_topic}", "refined_topic": refined_topic})
         search_start_time = time.time()
         raw_news_json = await asyncio.to_thread(search_news, refined_topic)
         search_duration = time.time() - search_start_time
@@ -75,7 +75,7 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
             return False
             
         logger.info(f"Found {len(raw_news_list)} articles.")
-        await notify({"step": "search", "status": "completed", "data": raw_news_list})
+        await notify({"step": "search", "status": "completed", "data": raw_news_list, "refined_topic": refined_topic})
     except Exception as e:
         logger.exception("Error in Search step")
         await notify({"step": "error", "message": f"The news search encountered an unexpected problem. This could be a network issue or a problem with the search service. Please check your internet connection and try again."
@@ -152,6 +152,7 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         final_report_data = {
             "job_id": job_id,
             "topic": topic,
+            "refined_topic": refined_topic,
             "agent_details": {
                 "search": raw_news_list,
                 "profiling": profiling_output,
@@ -167,6 +168,7 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
             report_entry = Report(
                 job_id=final_report_data["job_id"],
                 topic=final_report_data["topic"],
+                refined_topic=final_report_data.get("refined_topic"),
                 user_preferences=user_preferences,
                 final_report_data=final_report_data["agent_details"]
             )

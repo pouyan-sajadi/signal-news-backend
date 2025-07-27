@@ -26,3 +26,4 @@ build/
 
 # Secrets
 .env
+app.log
