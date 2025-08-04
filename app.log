@@ -2369,3 +2369,75 @@ fastapi.exceptions.HTTPException: 404: Report not found
 2025-08-02 00:11:52,617 [INFO] Fetched 16 reports from history.
 2025-08-02 00:13:30,908 [INFO] Fetched 16 reports from history.
 2025-08-02 00:13:30,910 [INFO] Fetched 16 reports from history.
+2025-08-03 17:28:38,332 [INFO] Got SERPAPI_API_KEY from environment
+2025-08-03 17:28:38,337 [INFO] Got OPENAI_API_KEY from environment
+2025-08-03 17:28:38,621 [INFO] Connected to MongoDB: mongodb://localhost:27017/, Database: signal_app_db
+2025-08-03 17:28:38,622 [INFO] MongoDB connection closed.
+2025-08-03 17:35:12,866 [INFO] Fetched 16 reports from history.
+2025-08-03 17:35:12,874 [INFO] Fetched 16 reports from history.
+2025-08-03 17:35:16,660 [INFO] Fetched 16 reports from history.
+2025-08-03 17:35:16,661 [INFO] Fetched 16 reports from history.
+2025-08-03 17:35:18,312 [INFO] Fetched 16 reports from history.
+2025-08-03 17:35:18,313 [INFO] Fetched 16 reports from history.
+2025-08-03 17:38:36,699 [INFO] Fetched 16 reports from history.
+2025-08-03 17:38:36,701 [INFO] Fetched 16 reports from history.
+2025-08-03 17:39:01,352 [INFO] Fetched 16 reports from history.
+2025-08-03 17:39:01,353 [INFO] Fetched 16 reports from history.
+2025-08-03 17:46:21,956 [INFO] Fetched 16 reports from history.
+2025-08-03 17:46:21,959 [INFO] Fetched 16 reports from history.
+2025-08-03 17:46:50,106 [INFO] Received request for topic: ai
+2025-08-03 17:46:50,106 [INFO] Created job_id: 9202cf4c-d7f3-43c2-aafb-dab641964a22
+2025-08-03 17:46:50,108 [INFO] 🔍 Refining search query...
+2025-08-03 17:46:50,141 [INFO] WebSocket connection established for job_id: 9202cf4c-d7f3-43c2-aafb-dab641964a22
+2025-08-03 17:46:51,169 [INFO] 🤖 Search query refined in 1.06 seconds. New query: AI
+2025-08-03 17:46:51,169 [INFO] Checking if topics are identical: True
+2025-08-03 17:46:51,169 [INFO] 🔍 Calling search_news function with refined topic: AI
+2025-08-03 17:46:54,739 [INFO] 🔍 Found 10 results from SerpAPI
+2025-08-03 17:46:55,987 [INFO] ✅ search_news function execution took 4.82 seconds.
+2025-08-03 17:46:55,988 [INFO] Found 10 articles.
+2025-08-03 17:46:55,990 [INFO] 🧠 Running Source Profiler Agent...
+2025-08-03 17:47:13,624 [INFO] 🧮 Running Diversity Selector Agent...
+2025-08-03 17:47:15,245 [INFO] Selected 3 articles.
+2025-08-03 17:47:15,248 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-08-03 17:47:22,635 [INFO] 🎨 Running Creative Editor Agent...
+2025-08-03 17:47:30,014 [INFO] Report 9202cf4c-d7f3-43c2-aafb-dab641964a22 saved to database.
+2025-08-03 17:47:30,022 [INFO] WebSocket connection closed for job_id: 9202cf4c-d7f3-43c2-aafb-dab641964a22
+2025-08-03 17:47:30,121 [INFO] Fetched 17 reports from history.
+2025-08-03 17:47:30,122 [INFO] Fetched 17 reports from history.
+2025-08-03 17:47:30,123 [INFO] Fetched report with job_id: 9202cf4c-d7f3-43c2-aafb-dab641964a22
+2025-08-03 17:47:30,126 [INFO] Fetched report with job_id: 9202cf4c-d7f3-43c2-aafb-dab641964a22
+2025-08-03 17:47:40,345 [INFO] Fetched 17 reports from history.
+2025-08-03 17:47:40,349 [INFO] Fetched 17 reports from history.
+2025-08-03 17:57:48,982 [INFO] Got SERPAPI_API_KEY from environment
+2025-08-03 17:57:48,982 [INFO] Got OPENAI_API_KEY from environment
+2025-08-03 17:57:49,213 [INFO] Connected to MongoDB: mongodb://localhost:27017/, Database: signal_app_db
+2025-08-03 17:57:49,214 [INFO] MongoDB connection closed.
+2025-08-03 17:58:02,209 [INFO] Fetched 17 reports from history.
+2025-08-03 17:58:02,211 [INFO] Fetched 17 reports from history.
+2025-08-03 18:00:58,434 [INFO] Fetched 17 reports from history.
+2025-08-03 18:00:58,435 [INFO] Fetched 17 reports from history.
+2025-08-03 18:02:03,180 [INFO] Received request for topic: ai
+2025-08-03 18:02:03,181 [INFO] Created job_id: 63e214be-821c-41c5-beb0-7d5744a08f4e
+2025-08-03 18:02:03,183 [INFO] 🔍 Refining search query...
+2025-08-03 18:02:03,209 [INFO] WebSocket connection established for job_id: 63e214be-821c-41c5-beb0-7d5744a08f4e
+2025-08-03 18:02:03,732 [INFO] 🤖 Search query refined in 0.55 seconds. New query: AI
+2025-08-03 18:02:03,732 [INFO] Checking if topics are identical: True
+2025-08-03 18:02:03,732 [INFO] 🔍 Calling search_news function with refined topic: AI
+2025-08-03 18:02:03,871 [INFO] 🔍 Found 10 results from SerpAPI
+2025-08-03 18:02:05,156 [INFO] ✅ search_news function execution took 1.42 seconds.
+2025-08-03 18:02:05,157 [INFO] Found 10 articles.
+2025-08-03 18:02:05,158 [INFO] 🧠 Running Source Profiler Agent...
+2025-08-03 18:02:08,069 [INFO] Fetched 17 reports from history.
+2025-08-03 18:02:08,070 [INFO] Fetched 17 reports from history.
+2025-08-03 18:02:26,013 [INFO] 🧮 Running Diversity Selector Agent...
+2025-08-03 18:02:29,181 [INFO] Selected 3 articles.
+2025-08-03 18:02:29,183 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-08-03 18:02:37,472 [INFO] 🎨 Running Creative Editor Agent...
+2025-08-03 18:02:44,149 [INFO] Report 63e214be-821c-41c5-beb0-7d5744a08f4e saved to database.
+2025-08-03 18:02:44,156 [INFO] WebSocket connection closed for job_id: 63e214be-821c-41c5-beb0-7d5744a08f4e
+2025-08-03 18:02:44,227 [INFO] Fetched report with job_id: 63e214be-821c-41c5-beb0-7d5744a08f4e
+2025-08-03 18:02:44,230 [INFO] Fetched report with job_id: 63e214be-821c-41c5-beb0-7d5744a08f4e
+2025-08-03 18:06:49,535 [INFO] Fetched 18 reports from history.
+2025-08-03 18:06:49,537 [INFO] Fetched 18 reports from history.
+2025-08-03 18:09:11,455 [INFO] Fetched 18 reports from history.
+2025-08-03 18:09:11,632 [INFO] Fetched 18 reports from history.
