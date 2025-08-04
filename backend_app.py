@@ -3,12 +3,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uuid
 import asyncio
+from datetime import datetime
 from app.core.process import process_news_backend
 from app.core.logger import logger
 from app.config import connect_db, close_db
 import uvicorn
 from app.core.database import db_client
 from typing import List, Dict, Any
+import os
+from supabase import create_client, Client
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# --- Supabase Setup ---
+supabase_url = os.environ.get("SUPABASE_URL")
+supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+supabase: Client = create_client(supabase_url, supabase_key)
+# --------------------
 
 app = FastAPI()
 
@@ -20,11 +33,7 @@ async def startup_event():
 async def shutdown_event():
     close_db()
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000", # Allow your Next.js frontend
-    "http://localhost:5173", # Allow the new SignalHub Vite frontend
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -73,6 +82,9 @@ async def get_report_history():
         reports_cursor = db_client.db["reports"].find({}, {"_id": 0, "job_id": 1, "topic": 1, "timestamp": 1, "user_preferences": 1})
         history = []
         for report in await asyncio.to_thread(list, reports_cursor):
+            # Ensure timestamp is formatted as ISO 8601 with Z for UTC
+            if 'timestamp' in report and isinstance(report['timestamp'], datetime):
+                report['timestamp'] = report['timestamp'].isoformat(timespec='microseconds') + 'Z'
             history.append(report)
         logger.info(f"Fetched {len(history)} reports from history.")
         return history
@@ -95,6 +107,37 @@ async def get_single_report(job_id: str):
         logger.exception(f"Error fetching report {job_id}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch report: {e}")
 
+import json
+
+# ... (keep existing imports)
+
+import json
+
+# ... (other imports)
+
+# --- New Endpoint for Daily News Dashboard ---
+@app.get("/api/tech-pulse/latest")
+async def get_latest_tech_pulse():
+    """
+    Fetches the most recent 'tech_pulse' data from the Supabase database.
+    """
+    try:
+        response = supabase.table('tech_pulses').select('pulse_data, created_at').order('created_at', desc=True).limit(1).single().execute()
+
+        if not response.data:
+            raise HTTPException(status_code=404, detail="No tech pulse data found.")
+
+        # The pulse_data might be a string or already a dict. Handle both cases.
+        pulse_data = response.data.get('pulse_data')
+        if isinstance(pulse_data, str):
+            response.data['pulse_data'] = json.loads(pulse_data)
+
+        return response.data
+
+    except Exception as e:
+        logger.exception(f"Error fetching or parsing latest tech pulse: {e}")
+        raise HTTPException(status_code=500, detail=f"Error processing tech pulse data: {str(e)}")
+# -----------------------------------------
 
 def get_websocket_sender(job_id: str):
     async def sender(data: dict):

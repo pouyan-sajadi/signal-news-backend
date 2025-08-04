@@ -6,6 +6,7 @@ This directory contains the FastAPI backend for the Signal news processing appli
 
 *   **HTTP API:** Exposes a `/process_news` endpoint to initiate news processing.
 *   **WebSocket API:** Provides a `/ws/status/{job_id}` endpoint for real-time status updates and final report delivery.
+*   **Daily News Dashboard API:** Exposes a `/api/tech-pulse/latest` endpoint to fetch data for the daily news dashboard.
 *   **Agent-based Processing:** Utilizes AI agents for search query refinement, source profiling, diversity selection, debate synthesis, and creative editing.
 *   **Persistent Report History:** Integrates with MongoDB to store and retrieve generated reports.
 *   **Secret Management:** Securely loads API keys from environment variables (supports `.env` for local development).
@@ -42,8 +43,9 @@ This directory contains the FastAPI backend for the Signal news processing appli
     ```
     OPENAI_API_KEY="your_openai_api_key_here"
     SERPAPI_KEY="your_serpapi_key_here"
+    SUPABASE_URL="your_supabase_project_url"
+    SUPABASE_SERVICE_ROLE_KEY="your_supabase_service_role_key"
     ```
-    **Important:** Replace `"your_openai_api_key_here"` and `"your_serpapi_key_here"` with your actual API keys. Do not commit this file to version control.
 
 ## Running the Backend
 
