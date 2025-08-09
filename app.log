@@ -3441,3 +3441,77 @@ Traceback (most recent call last):
     ~~~~~~~~~~~~^^^^^^^^^^^
 TypeError: 'NoneType' object is not subscriptable
 2025-08-08 19:47:58,607 [INFO] WebSocket connection closed for job_id: a4760103-1258-4180-bbe9-cc31c98f52c3
+2025-08-08 20:20:24,567 [INFO] Got SERPAPI_API_KEY from environment
+2025-08-08 20:20:24,567 [INFO] Got OPENAI_API_KEY from environment
+2025-08-08 20:20:46,591 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:20:46,829 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:20:56,507 [INFO] Successfully deleted report 2c5adff3-2c2f-437f-9540-e1903cf9decb for user d99b9dbd-7efc-4367-8ea2-64735f9c1a92.
+2025-08-08 20:21:04,423 [INFO] Successfully deleted report 2fcd8465-928f-4bc7-8a33-a8d5de354d44 for user d99b9dbd-7efc-4367-8ea2-64735f9c1a92.
+2025-08-08 20:21:44,170 [INFO] Received request for topic: tech
+2025-08-08 20:21:44,172 [INFO] Created job_id: 36c669aa-6c42-4eaf-a8c3-81f6f734d38a
+2025-08-08 20:21:44,174 [INFO] 🔍 Refining search query...
+2025-08-08 20:21:44,208 [INFO] WebSocket connection established for job_id: 36c669aa-6c42-4eaf-a8c3-81f6f734d38a
+2025-08-08 20:21:44,918 [INFO] 🤖 Search query refined in 0.74 seconds. New query: tech
+2025-08-08 20:21:44,918 [INFO] Checking if topics are identical: True
+2025-08-08 20:21:44,918 [INFO] 🔍 Calling search_news function with refined topic: tech
+2025-08-08 20:21:47,976 [INFO] 🔍 Found 10 results from SerpAPI
+2025-08-08 20:21:49,352 [INFO] ✅ search_news function execution took 4.43 seconds.
+2025-08-08 20:21:49,352 [INFO] Found 10 articles.
+2025-08-08 20:21:49,353 [INFO] 🧠 Running Source Profiler Agent...
+2025-08-08 20:22:02,215 [INFO] 🧮 Running Diversity Selector Agent...
+2025-08-08 20:22:03,437 [INFO] Selected 3 articles.
+2025-08-08 20:22:03,438 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-08-08 20:22:07,868 [INFO] 🎨 Running Creative Editor Agent...
+2025-08-08 20:22:13,318 [ERROR] Error saving report to database: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/app/core/process.py", line 174, in process_news_backend
+    db_client.db["reports"].insert_one(report_entry.model_dump(by_alias=True))
+    ~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+2025-08-08 20:22:13,330 [INFO] WebSocket connection closed for job_id: 36c669aa-6c42-4eaf-a8c3-81f6f734d38a
+2025-08-08 20:23:45,752 [INFO] Fetching report with job_id: 36c669aa-6c42-4eaf-a8c3-81f6f734d38a
+2025-08-08 20:23:45,936 [INFO] Supabase response for job_id 36c669aa-6c42-4eaf-a8c3-81f6f734d38a: data=[] count=None
+2025-08-08 20:23:45,936 [WARNING] Report with job_id 36c669aa-6c42-4eaf-a8c3-81f6f734d38a not found.
+2025-08-08 20:23:45,936 [ERROR] An error occurred while fetching report 36c669aa-6c42-4eaf-a8c3-81f6f734d38a: 404: Report not found
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/backend_app.py", line 208, in get_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-08-08 20:23:45,940 [INFO] Fetching report with job_id: 36c669aa-6c42-4eaf-a8c3-81f6f734d38a
+2025-08-08 20:23:46,045 [INFO] Supabase response for job_id 36c669aa-6c42-4eaf-a8c3-81f6f734d38a: data=[] count=None
+2025-08-08 20:23:46,045 [WARNING] Report with job_id 36c669aa-6c42-4eaf-a8c3-81f6f734d38a not found.
+2025-08-08 20:23:46,046 [ERROR] An error occurred while fetching report 36c669aa-6c42-4eaf-a8c3-81f6f734d38a: 404: Report not found
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/backend_app.py", line 208, in get_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-08-08 20:23:59,078 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:23:59,333 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:24:33,680 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:24:33,892 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:24:37,119 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:24:37,346 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:25:01,526 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:25:01,732 [INFO] Backend sending history. First item timestamp: 2025-08-09T02:44:51.154Z
+2025-08-08 20:29:12,982 [INFO] Got SERPAPI_API_KEY from environment
+2025-08-08 20:29:12,982 [INFO] Got OPENAI_API_KEY from environment
+2025-08-08 20:29:54,679 [INFO] Received request for topic: h
+2025-08-08 20:29:54,680 [INFO] Created job_id: 608ff656-a4d5-4fe8-b450-9a865b69aca9
+2025-08-08 20:29:54,682 [INFO] 🔍 Refining search query...
+2025-08-08 20:29:55,291 [INFO] 🤖 Search query refined in 0.61 seconds. New query: h
+2025-08-08 20:29:55,291 [INFO] Checking if topics are identical: True
+2025-08-08 20:29:55,291 [INFO] 🔍 Calling search_news function with refined topic: h
+2025-08-08 20:29:57,555 [INFO] 🔍 Found 10 results from SerpAPI
+2025-08-08 20:29:58,597 [INFO] ✅ search_news function execution took 3.31 seconds.
+2025-08-08 20:29:58,597 [INFO] Found 10 articles.
+2025-08-08 20:29:58,597 [INFO] 🧠 Running Source Profiler Agent...
+2025-08-08 20:30:11,073 [INFO] 🧮 Running Diversity Selector Agent...
+2025-08-08 20:30:13,987 [INFO] Selected 3 articles.
+2025-08-08 20:30:13,988 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-08-08 20:30:21,927 [INFO] 🎨 Running Creative Editor Agent...
+2025-08-08 20:30:29,711 [ERROR] Error saving report to database: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/app/core/process.py", line 174, in process_news_backend
+    db_client.db["reports"].insert_one(report_entry.model_dump(by_alias=True))
+    ~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable

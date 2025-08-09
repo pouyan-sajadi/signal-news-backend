@@ -212,6 +212,41 @@ async def get_report(job_id: str):
         raise HTTPException(status_code=500, detail=f"An internal server error occurred: {str(e)}")
 
 
+@app.delete("/api/history/{job_id}")
+async def delete_search_history(job_id: str, request: Request):
+    try:
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
+            raise HTTPException(status_code=401, detail="Unauthorized")
+        
+        jwt_token = auth_header.split(' ')[1]
+        
+        try:
+            user_response = supabase.auth.get_user(jwt_token)
+            user = user_response.user
+            if not user:
+                raise HTTPException(status_code=401, detail="Invalid token")
+        except Exception as e:
+            logger.error(f"Supabase token verification failed: {e}")
+            raise HTTPException(status_code=401, detail="Invalid token")
+
+        # Delete the record where user_id matches and job_id is found within report_summary
+        delete_response = supabase.table("user_report_history").delete().eq('user_id', user.id).eq('report_summary->>job_id', job_id).execute()
+
+        if delete_response.data:
+            logger.info(f"Successfully deleted report {job_id} for user {user.id}.")
+            return {"success": True, "message": "Report deleted successfully"}
+        else:
+            logger.warning(f"Report {job_id} not found or not authorized for user {user.id}.")
+            raise HTTPException(status_code=404, detail="Report not found or unauthorized.")
+
+    except HTTPException as http_exc:
+        raise http_exc
+    except Exception as e:
+        logger.exception(f"Error deleting search history: {e}")
+        raise HTTPException(status_code=500, detail=f"An internal error occurred: {str(e)}")
+
+
 def get_websocket_sender(job_id: str):
     async def sender(data: dict):
         if job_id in connections and connections[job_id]:
