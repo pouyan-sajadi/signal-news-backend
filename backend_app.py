@@ -148,6 +148,9 @@ async def get_search_history(request: Request):
         if response.data:
             # Extract the 'report_summary' object from each record
             history_list = [record['report_summary'] for record in response.data]
+            # Log the timestamp of the first item if history exists
+            if history_list:
+                logger.info(f"Backend sending history. First item timestamp: {history_list[0].get('timestamp')}")
             return history_list
         else:
             return []

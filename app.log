@@ -3128,3 +3128,84 @@ TypeError: 'NoneType' object is not subscriptable
 2025-08-08 18:22:41,657 [INFO] Successfully fetched report for job_id: a74a4a6a-4f69-4f2b-8a5a-db2d746447e1
 2025-08-08 18:28:22,630 [INFO] Got SERPAPI_API_KEY from environment
 2025-08-08 18:28:22,630 [INFO] Got OPENAI_API_KEY from environment
+2025-08-08 18:40:30,600 [INFO] Got SERPAPI_API_KEY from environment
+2025-08-08 18:40:30,600 [INFO] Got OPENAI_API_KEY from environment
+2025-08-08 18:40:42,095 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:22:41.142Z
+2025-08-08 18:40:42,402 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:22:41.142Z
+2025-08-08 18:44:07,921 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:22:41.142Z
+2025-08-08 18:44:08,259 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:22:41.142Z
+2025-08-08 18:44:17,197 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:22:41.142Z
+2025-08-08 18:44:17,548 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:22:41.142Z
+2025-08-08 18:47:03,623 [INFO] Received request for topic: ai
+2025-08-08 18:47:03,624 [INFO] Created job_id: 9f561a4d-fbf9-4e48-9584-5edd63a82317
+2025-08-08 18:47:03,626 [INFO] 🔍 Refining search query...
+2025-08-08 18:47:03,723 [INFO] WebSocket connection established for job_id: 9f561a4d-fbf9-4e48-9584-5edd63a82317
+2025-08-08 18:47:04,299 [INFO] 🤖 Search query refined in 0.67 seconds. New query: AI
+2025-08-08 18:47:04,300 [INFO] Checking if topics are identical: True
+2025-08-08 18:47:04,300 [INFO] 🔍 Calling search_news function with refined topic: AI
+2025-08-08 18:47:04,395 [INFO] 🔍 Found 10 results from SerpAPI
+2025-08-08 18:47:05,602 [INFO] ✅ search_news function execution took 1.30 seconds.
+2025-08-08 18:47:05,602 [INFO] Found 10 articles.
+2025-08-08 18:47:05,603 [INFO] 🧠 Running Source Profiler Agent...
+2025-08-08 18:47:16,678 [INFO] 🧮 Running Diversity Selector Agent...
+2025-08-08 18:47:17,904 [INFO] Selected 3 articles.
+2025-08-08 18:47:17,906 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-08-08 18:47:21,693 [INFO] 🎨 Running Creative Editor Agent...
+2025-08-08 18:47:29,483 [ERROR] Error saving report to database: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/app/core/process.py", line 174, in process_news_backend
+    db_client.db["reports"].insert_one(report_entry.model_dump(by_alias=True))
+    ~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+2025-08-08 18:47:29,498 [INFO] WebSocket connection closed for job_id: 9f561a4d-fbf9-4e48-9584-5edd63a82317
+2025-08-08 18:47:29,699 [INFO] Attempting to insert search history for user 9df84127-b700-49be-a630-e91d5e3b4aea with topic 'ai'
+2025-08-08 18:47:29,882 [INFO] Supabase insert response: data=[{'id': 9, 'user_id': '9df84127-b700-49be-a630-e91d5e3b4aea', 'search_topic': 'ai', 'created_at': '2025-08-09T01:46:16.964955+00:00', 'report_summary': {'topic': 'ai', 'job_id': '9f561a4d-fbf9-4e48-9584-5edd63a82317', 'timestamp': '2025-08-09T01:47:29.545Z', 'user_preferences': {'tone': 'Express Mode', 'depth': 1, 'focus': 'Just the Facts'}, 'final_report_data': {'search': [], 'editing': 'Here’s what’s happening with AI and tech right now: On one hand, AI is getting weaponized in some pretty nasty ways. [The Hacker News](https://thehackernews.com/2025/08/ai-tools-fuel-brazilian-phishing-scam.html) reports that scammers in Brazil are using AI to create extremely convincing phishing websites posing as government agencies. They’re tricking people into sending money through the PIX payment system. At the same time, a new malware called the Efimer Trojan is targeting crypto holders worldwide—over 5,000 victims already. It spreads through hacked WordPress sites, phishing emails, and even fake torrents, using smart tricks like avoiding virtual machines and hiding behind TOR to stay under the radar. This shows AI-powered cybercrime isn’t just growing—it’s getting way more sophisticated.\n\nOn the flip side, AI also has a bright side in the hands of researchers. [Texas A&M University](https://stories.tamu.edu/news/2025/08/07/texas-am-researchers-use-ai-to-forecast-pollution/) is harnessing machine learning to predict dangerous pollution spikes caused by chemical emissions during storms. They’ve found lightning and rainfall as key signals to forecast these events, enabling cities to warn people and upgrade their infrastructure before problems get worse. This is a perfect example of AI improving public health and safety, standing in sharp relief against all the criminal use cases.\n\nThen there’s Tesla, which Bloomberg reports has disbanded its Dojo supercomputer team—a bit of a curveball considering how much hype their AI projects get. It might mean the company’s hitting roadblocks or rethinking its AI direction, but details are scarce. To sum up: AI is a double-edged sword right now—powering vital environmental research and public safety on one side, and fueling stealthy, high-tech cybercrime on the other. Meanwhile, even industry giants like Tesla face challenges, underscoring how complicated the AI race really is, and why defense and regulation need to keep up fast.', 'profiling': [], 'selection': [], 'synthesis': ''}}}] count=None
+2025-08-08 18:47:29,883 [INFO] Successfully saved search history for user 9df84127-b700-49be-a630-e91d5e3b4aea.
+2025-08-08 18:47:29,884 [INFO] Fetching report with job_id: 9f561a4d-fbf9-4e48-9584-5edd63a82317
+2025-08-08 18:47:29,979 [INFO] Supabase response for job_id 9f561a4d-fbf9-4e48-9584-5edd63a82317: data=[{'id': 9, 'user_id': '9df84127-b700-49be-a630-e91d5e3b4aea', 'search_topic': 'ai', 'created_at': '2025-08-09T01:46:16.964955+00:00', 'report_summary': {'topic': 'ai', 'job_id': '9f561a4d-fbf9-4e48-9584-5edd63a82317', 'timestamp': '2025-08-09T01:47:29.545Z', 'user_preferences': {'tone': 'Express Mode', 'depth': 1, 'focus': 'Just the Facts'}, 'final_report_data': {'search': [], 'editing': 'Here’s what’s happening with AI and tech right now: On one hand, AI is getting weaponized in some pretty nasty ways. [The Hacker News](https://thehackernews.com/2025/08/ai-tools-fuel-brazilian-phishing-scam.html) reports that scammers in Brazil are using AI to create extremely convincing phishing websites posing as government agencies. They’re tricking people into sending money through the PIX payment system. At the same time, a new malware called the Efimer Trojan is targeting crypto holders worldwide—over 5,000 victims already. It spreads through hacked WordPress sites, phishing emails, and even fake torrents, using smart tricks like avoiding virtual machines and hiding behind TOR to stay under the radar. This shows AI-powered cybercrime isn’t just growing—it’s getting way more sophisticated.\n\nOn the flip side, AI also has a bright side in the hands of researchers. [Texas A&M University](https://stories.tamu.edu/news/2025/08/07/texas-am-researchers-use-ai-to-forecast-pollution/) is harnessing machine learning to predict dangerous pollution spikes caused by chemical emissions during storms. They’ve found lightning and rainfall as key signals to forecast these events, enabling cities to warn people and upgrade their infrastructure before problems get worse. This is a perfect example of AI improving public health and safety, standing in sharp relief against all the criminal use cases.\n\nThen there’s Tesla, which Bloomberg reports has disbanded its Dojo supercomputer team—a bit of a curveball considering how much hype their AI projects get. It might mean the company’s hitting roadblocks or rethinking its AI direction, but details are scarce. To sum up: AI is a double-edged sword right now—powering vital environmental research and public safety on one side, and fueling stealthy, high-tech cybercrime on the other. Meanwhile, even industry giants like Tesla face challenges, underscoring how complicated the AI race really is, and why defense and regulation need to keep up fast.', 'profiling': [], 'selection': [], 'synthesis': ''}}}] count=None
+2025-08-08 18:47:29,980 [INFO] Successfully fetched report for job_id: 9f561a4d-fbf9-4e48-9584-5edd63a82317
+2025-08-08 18:47:29,981 [INFO] Fetching report with job_id: 9f561a4d-fbf9-4e48-9584-5edd63a82317
+2025-08-08 18:47:30,079 [INFO] Supabase response for job_id 9f561a4d-fbf9-4e48-9584-5edd63a82317: data=[{'id': 9, 'user_id': '9df84127-b700-49be-a630-e91d5e3b4aea', 'search_topic': 'ai', 'created_at': '2025-08-09T01:46:16.964955+00:00', 'report_summary': {'topic': 'ai', 'job_id': '9f561a4d-fbf9-4e48-9584-5edd63a82317', 'timestamp': '2025-08-09T01:47:29.545Z', 'user_preferences': {'tone': 'Express Mode', 'depth': 1, 'focus': 'Just the Facts'}, 'final_report_data': {'search': [], 'editing': 'Here’s what’s happening with AI and tech right now: On one hand, AI is getting weaponized in some pretty nasty ways. [The Hacker News](https://thehackernews.com/2025/08/ai-tools-fuel-brazilian-phishing-scam.html) reports that scammers in Brazil are using AI to create extremely convincing phishing websites posing as government agencies. They’re tricking people into sending money through the PIX payment system. At the same time, a new malware called the Efimer Trojan is targeting crypto holders worldwide—over 5,000 victims already. It spreads through hacked WordPress sites, phishing emails, and even fake torrents, using smart tricks like avoiding virtual machines and hiding behind TOR to stay under the radar. This shows AI-powered cybercrime isn’t just growing—it’s getting way more sophisticated.\n\nOn the flip side, AI also has a bright side in the hands of researchers. [Texas A&M University](https://stories.tamu.edu/news/2025/08/07/texas-am-researchers-use-ai-to-forecast-pollution/) is harnessing machine learning to predict dangerous pollution spikes caused by chemical emissions during storms. They’ve found lightning and rainfall as key signals to forecast these events, enabling cities to warn people and upgrade their infrastructure before problems get worse. This is a perfect example of AI improving public health and safety, standing in sharp relief against all the criminal use cases.\n\nThen there’s Tesla, which Bloomberg reports has disbanded its Dojo supercomputer team—a bit of a curveball considering how much hype their AI projects get. It might mean the company’s hitting roadblocks or rethinking its AI direction, but details are scarce. To sum up: AI is a double-edged sword right now—powering vital environmental research and public safety on one side, and fueling stealthy, high-tech cybercrime on the other. Meanwhile, even industry giants like Tesla face challenges, underscoring how complicated the AI race really is, and why defense and regulation need to keep up fast.', 'profiling': [], 'selection': [], 'synthesis': ''}}}] count=None
+2025-08-08 18:47:30,080 [INFO] Successfully fetched report for job_id: 9f561a4d-fbf9-4e48-9584-5edd63a82317
+2025-08-08 19:08:36,324 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:47:29.545Z
+2025-08-08 19:08:36,660 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:47:29.545Z
+2025-08-08 19:09:45,794 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:47:29.545Z
+2025-08-08 19:09:46,048 [INFO] Backend sending history. First item timestamp: 2025-08-09T01:47:29.545Z
+2025-08-08 19:10:10,284 [INFO] Received request for topic: gpt 5
+2025-08-08 19:10:10,285 [INFO] Created job_id: a7549560-1f9b-4a60-88cc-c9f549231775
+2025-08-08 19:10:10,286 [INFO] 🔍 Refining search query...
+2025-08-08 19:10:10,323 [INFO] WebSocket connection established for job_id: a7549560-1f9b-4a60-88cc-c9f549231775
+2025-08-08 19:10:10,802 [INFO] 🤖 Search query refined in 0.52 seconds. New query: GPT-5
+2025-08-08 19:10:10,803 [INFO] Checking if topics are identical: False
+2025-08-08 19:10:10,803 [INFO] 🔍 Calling search_news function with refined topic: GPT-5
+2025-08-08 19:10:20,325 [INFO] 🔍 Found 10 results from SerpAPI
+2025-08-08 19:10:21,535 [INFO] ✅ search_news function execution took 10.73 seconds.
+2025-08-08 19:10:21,535 [INFO] Found 10 articles.
+2025-08-08 19:10:21,535 [INFO] 🧠 Running Source Profiler Agent...
+2025-08-08 19:10:30,197 [INFO] 🧮 Running Diversity Selector Agent...
+2025-08-08 19:10:31,693 [INFO] Selected 3 articles.
+2025-08-08 19:10:31,693 [INFO] 🗣️ Running Debate Synthesizer Agent...
+2025-08-08 19:10:39,062 [INFO] 🎨 Running Creative Editor Agent...
+2025-08-08 19:10:47,459 [ERROR] Error saving report to database: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/app/core/process.py", line 174, in process_news_backend
+    db_client.db["reports"].insert_one(report_entry.model_dump(by_alias=True))
+    ~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+2025-08-08 19:10:47,465 [INFO] WebSocket connection closed for job_id: a7549560-1f9b-4a60-88cc-c9f549231775
+2025-08-08 19:10:47,516 [INFO] Fetching report with job_id: a7549560-1f9b-4a60-88cc-c9f549231775
+2025-08-08 19:10:47,804 [INFO] Supabase response for job_id a7549560-1f9b-4a60-88cc-c9f549231775: data=[] count=None
+2025-08-08 19:10:47,804 [WARNING] Report with job_id a7549560-1f9b-4a60-88cc-c9f549231775 not found.
+2025-08-08 19:10:47,804 [ERROR] An error occurred while fetching report a7549560-1f9b-4a60-88cc-c9f549231775: 404: Report not found
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/backend_app.py", line 208, in get_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
+2025-08-08 19:10:47,809 [INFO] Fetching report with job_id: a7549560-1f9b-4a60-88cc-c9f549231775
+2025-08-08 19:10:47,912 [INFO] Supabase response for job_id a7549560-1f9b-4a60-88cc-c9f549231775: data=[] count=None
+2025-08-08 19:10:47,912 [WARNING] Report with job_id a7549560-1f9b-4a60-88cc-c9f549231775 not found.
+2025-08-08 19:10:47,912 [ERROR] An error occurred while fetching report a7549560-1f9b-4a60-88cc-c9f549231775: 404: Report not found
+Traceback (most recent call last):
+  File "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/backend_app.py", line 208, in get_report
+    raise HTTPException(status_code=404, detail="Report not found")
+fastapi.exceptions.HTTPException: 404: Report not found
