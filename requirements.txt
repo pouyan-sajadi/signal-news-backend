@@ -110,3 +110,4 @@ websockets==15.0.1
 yarl==1.20.1
 pymongo==4.8.0
 supabase
+gunicorn

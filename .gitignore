@@ -26,4 +26,10 @@ build/
 
 # Secrets
 .env
-app.log
+
+# Internal Docs
+design.md
+requirements.md
+
+# Generated Output
+news_output/

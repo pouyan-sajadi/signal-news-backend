@@ -254,12 +254,14 @@ def get_websocket_sender(job_id: str):
                 logger.error(f"Error sending websocket message for job_id {job_id}: {e}")
     return sender
 
-if __name__ == "__main__":
-    # --- Diagnostic: Print all registered routes ---
-    logger.info("--- Registered Routes ---")
-    for route in app.routes:
-        if hasattr(route, "methods"):
-            logger.info(f"Path: {route.path}, Methods: {list(route.methods)}")
-    logger.info("-------------------------")
-    # --------------------------------------------
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# This block is removed for Gunicorn deployment on Railway.
+# The application will be run using a Procfile and Gunicorn.
+# if __name__ == "__main__":
+#     # --- Diagnostic: Print all registered Routes ---
+#     logger.info("--- Registered Routes ---")
+#     for route in app.routes:
+#         if hasattr(route, "methods"):
+#             logger.info(f"Path: {route.path}, Methods: {list(route.methods)}")
+#     logger.info("-------------------------")
+#     # ---------------------------------------------
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
