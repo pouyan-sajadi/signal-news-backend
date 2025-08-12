@@ -24,18 +24,6 @@ supabase: Client = create_client(supabase_url, supabase_key)
 
 app = FastAPI()
 
-from app.core.database import db_client, Report # Import db_client
-
-@app.on_event("startup")
-async def startup_event():
-    db_client.connect()
-    logger.info("Database connection established.")
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    db_client.close()
-    logger.info("Database connection closed.")
-
 origins_str = os.environ.get("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
 origins = [origin.strip() for origin in origins_str.split(",")]
 
@@ -59,7 +47,7 @@ async def process_news(request: NewsRequest):
     job_id = str(uuid.uuid4())
     connections[job_id] = None
     logger.info(f"Created job_id: {job_id}")
-    asyncio.create_task(process_news_backend(job_id, request.topic, request.user_preferences, get_websocket_sender(job_id)))
+    asyncio.create_task(process_news_backend(job_id, request.topic, request.user_preferences, get_websocket_sender(job_id), supabase))
     return {"message": "Process started", "job_id": job_id}
 
 @app.websocket("/ws/status/{job_id}")

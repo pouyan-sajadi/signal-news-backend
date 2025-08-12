@@ -12,11 +12,33 @@ from app.agents.agent_factory import (
 from swarm import Swarm
 from app.core.logger import logger
 from app.core.utils import search_news
-from app.core.database import db_client, Report
+from pydantic import BaseModel, Field
+from typing import Optional, List
+from datetime import datetime
+
+class ReportPreferences(BaseModel):
+    focus: str
+    depth: int
+    tone: str
+
+class AgentDetails(BaseModel):
+    search: List[dict] = []
+    profiling: List[dict] = []
+    selection: List[dict] = []
+    synthesis: str = ""
+    editing: str = ""
+
+class Report(BaseModel):
+    job_id: str = Field(...)
+    topic: str = Field(...)
+    refined_topic: Optional[str] = None
+    user_preferences: ReportPreferences
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    final_report_data: AgentDetails
 
 client = Swarm()
 
-async def process_news_backend(job_id, topic, user_preferences, websocket_sender):
+async def process_news_backend(job_id, topic, user_preferences, websocket_sender, supabase_client):
     """Run the news processing workflow, using a websocket to stream results."""
 
     async def notify(data):
@@ -171,11 +193,24 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
                 user_preferences=user_preferences,
                 final_report_data=final_report_data["agent_details"]
             )
-            db_client.db["reports"].insert_one(report_entry.model_dump(by_alias=True))
-            logger.info(f'Report {job_id} saved to database.')
+            # Convert Pydantic model to dictionary for Supabase insertion
+            report_data_to_insert = report_entry.model_dump(by_alias=True)
+            # Supabase expects JSONB for complex objects, ensure it's handled correctly
+            # For 'user_preferences' and 'final_report_data', they should be dicts
+            # Pydantic's model_dump already handles this, but good to be aware.
+
+            # Insert into 'reports' table in Supabase
+            insert_response = await supabase_client.table("reports").insert(report_data_to_insert).execute()
+
+            if insert_response.data:
+                logger.info(f'Report {job_id} saved to Supabase.')
+            else:
+                logger.error(f"Failed to save report {job_id} to Supabase. Response: {insert_response.data}")
+                raise Exception(f"Supabase insert failed: {insert_response.data}")
+
         except Exception as db_e:
-            logger.exception(f"Error saving report to database: {db_e}")
-            await notify({"step": "error", "message": f"Failed to save report to database: {db_e}"})
+            logger.exception(f"Error saving report to Supabase: {db_e}")
+            await notify({"step": "error", "message": f"Failed to save report to Supabase: {db_e}"})
             return False
 
     except Exception as e:
