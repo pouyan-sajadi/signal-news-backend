@@ -1,15 +1,31 @@
 # Signal App Backend (FastAPI)
 
-This directory contains the FastAPI backend for the Signal news processing application. It is responsible for handling news processing workflows, communicating with external APIs (SerpAPI, OpenAI), and providing real-time updates to the frontend via WebSockets.
+This directory contains the FastAPI backend for the Signal news processing application. It is responsible for handling news processing workflows, communicating with external APIs (SerpAPI, OpenAI), providing real-time updates to the frontend via WebSockets, and managing user data via Supabase.
 
 ## Features
 
-*   **HTTP API:** Exposes a `/process_news` endpoint to initiate news processing.
-*   **WebSocket API:** Provides a `/ws/status/{job_id}` endpoint for real-time status updates and final report delivery.
-*   **Daily News Dashboard API:** Exposes a `/api/tech-pulse/latest` endpoint to fetch data for the daily news dashboard.
-*   **Agent-based Processing:** Utilizes AI agents for search query refinement, source profiling, diversity selection, debate synthesis, and creative editing.
-*   **Persistent Report History:** Integrates with MongoDB to store and retrieve generated reports.
-*   **Secret Management:** Securely loads API keys from environment variables (supports `.env` for local development).
+*   **News Processing Engine:**
+    *   **HTTP API:** Exposes a `/process_news` endpoint to initiate news processing with a given topic and user preferences.
+    *   **WebSocket API:** Provides a `/ws/status/{job_id}` endpoint for real-time status updates and final report delivery.
+    *   **Agent-based Processing:** Utilizes AI agents for search query refinement, source profiling, diversity selection, debate synthesis, and creative editing.
+*   **User and Report Data Management:**
+    *   **Authentication:** Manages user authentication using Supabase.
+    *   **Persistent Report History:** Integrates with Supabase to store and retrieve user-specific generated reports.
+    *   **History API:** Provides endpoints to get, save, and delete user report history (`/api/history`).
+    *   **Report Retrieval:** Allows fetching a single report by its job ID (`/reports/{job_id}`).
+*   **Dashboard Data:**
+    *   **Daily News Dashboard API:** Exposes a `/api/tech-pulse/latest` endpoint to fetch aggregated data for the daily news dashboard.
+*   **Secret Management:** Securely loads API keys and database URLs from environment variables (supports `.env` for local development).
+
+## API Endpoints
+
+*   `POST /process_news`: Starts the news report generation process.
+*   `WS /ws/status/{job_id}`: Real-time progress updates for a generation job.
+*   `POST /api/history`: Saves a new report to the user's history (requires authentication).
+*   `GET /api/history`: Retrieves the authenticated user's report history.
+*   `DELETE /api/history/{job_id}`: Deletes a specific report from the user's history (requires authentication).
+*   `GET /reports/{job_id}`: Retrieves a single, specific report by its job ID.
+*   `GET /api/tech-pulse/latest`: Fetches the latest data for the "Tech Pulse" dashboard.
 
 ## Setup and Installation
 
@@ -29,17 +45,11 @@ This directory contains the FastAPI backend for the Signal news processing appli
     pip install -r requirements.txt
     ```
 
-4.  **Install and Start MongoDB:**
-    If you don't have MongoDB running locally, you can install it via Homebrew (on macOS):
-    ```bash
-    brew tap mongodb/brew
-    brew install mongodb-community
-    brew services start mongodb-community
-    ```
-    For other operating systems or detailed installation instructions, refer to the [MongoDB documentation](https://docs.mongodb.com/manual/installation/).
+4.  **Set up Supabase:**
+    This project uses Supabase for its database and authentication. You will need to have a Supabase project set up. The backend automatically handles table creation if they don't exist.
 
-5.  **Configure API Keys:**
-    Create a `.env` file in the `signal-app-backend` directory (the same directory as `backend_app.py`) and add your API keys:
+5.  **Configure API Keys and Environment Variables:**
+    Create a `.env` file in the `signal-app-backend` directory and add the following:
     ```
     OPENAI_API_KEY="your_openai_api_key_here"
     SERPAPI_KEY="your_serpapi_key_here"
@@ -56,22 +66,23 @@ To start the FastAPI server:
 cd signal-app-backend
 # Activate your virtual environment if not already active
 source venv/bin/activate
-# Run the Uvicorn server in the background (using &)
-./venv/bin/uvicorn backend_app:app --host 0.0.0.0 --port 8000 &
+# Run the Uvicorn server
+uvicorn backend_app:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-The backend will run on `http://127.0.0.1:8000`.
+The backend will run on `http://127.0.0.1:8000`. The `--reload` flag is recommended for development to automatically apply code changes.
 
 ## Project Structure
 
-*   `backend_app.py`: Main FastAPI application, defines API and WebSocket endpoints.
+*   `backend_app.py`: Main FastAPI application file. Defines all API and WebSocket endpoints, and handles Supabase integration.
 *   `app/`: Contains the core logic of the application.
-    *   `app/__init__.py`: Initializes the `app` package.
-    *   `app/config.py`: Configuration settings, including secret loading.
-    *   `app/agents/`: AI agent definitions and related logic.
-    *   `app/core/`: Core processing modules.
-        *   `process.py`: Orchestrates the news processing workflow.
-        *   `logger.py`: Configures logging for the application.
-        *   `utils.py`: Utility functions (e.g., news searching).
-*   `requirements.txt`: Python dependencies for the backend.
-*   `venv/`: Python virtual environment.
+    *   `__init__.py`: Initializes the `app` package.
+    *   `config.py`: Configuration settings, including secret loading.
+    *   `agents/`: Contains the definitions and logic for the various AI agents used in the processing pipeline (e.g., search, profiling, synthesis).
+    *   `core/`: Contains the core application modules.
+        *   `process.py`: Orchestrates the main news processing workflow, coordinating the AI agents.
+        *   `logger.py`: Configures application-wide logging.
+        *   `utils.py`: Utility functions used across the application.
+*   `requirements.txt`: A list of all Python dependencies required for the backend.
+*   `.env`: (Locally created) File for storing environment variables securely.
+*   `venv/`: (Locially created) Directory for the Python virtual environment.

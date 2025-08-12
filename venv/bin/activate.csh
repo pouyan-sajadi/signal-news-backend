@@ -8,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/Users/spouyans/Desktop/signal-app-refactored-project/signal-app-backend/venv"
+setenv VIRTUAL_ENV "/Users/spouyans/Desktop/signal-app-refactored-project-after404error/signal-app-backend/venv"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
