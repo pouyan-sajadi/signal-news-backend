@@ -24,6 +24,18 @@ supabase: Client = create_client(supabase_url, supabase_key)
 
 app = FastAPI()
 
+from app.core.database import db_client, Report # Import db_client
+
+@app.on_event("startup")
+async def startup_event():
+    db_client.connect()
+    logger.info("Database connection established.")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    db_client.close()
+    logger.info("Database connection closed.")
+
 origins_str = os.environ.get("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
 origins = [origin.strip() for origin in origins_str.split(",")]
 
