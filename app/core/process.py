@@ -202,8 +202,8 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
             if 'timestamp' in report_data_to_insert and isinstance(report_data_to_insert['timestamp'], datetime):
                 report_data_to_insert['timestamp'] = report_data_to_insert['timestamp'].isoformat()
 
-            # Insert into 'reports' table in Supabase
-            insert_response = await supabase_client.table("reports").insert(report_data_to_insert).execute()
+            # Insert into 'user_report_history' table in Supabase
+            insert_response = await supabase_client.table("user_report_history").insert(report_data_to_insert).execute()
 
             if insert_response.data:
                 logger.info(f'Report {job_id} saved to Supabase.')
