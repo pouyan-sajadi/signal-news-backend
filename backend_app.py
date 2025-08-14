@@ -96,6 +96,7 @@ async def save_search_history(request: Request):
 
         # 3. Insert the data into the database
         logger.info(f"Attempting to insert search history for user {user.id} with topic '{search_topic}'")
+        logger.info(f"report_summary before Supabase insert: {report_summary}")
         insert_response = supabase.table("user_report_history").insert([
             {
                 "user_id": user.id,
