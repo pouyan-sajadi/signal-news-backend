@@ -37,7 +37,8 @@ def fetch_full_article(url):
         logger.debug(f"Parsed article from {url}, length={len(article.text)} chars")
         return article.text
     except Exception as e:
-        return f"[Failed to fetch full article: {e}]"
+        logger.error(f"Error fetching full article from {url}: {e}")
+        return f"Failed to fetch article content: {type(e).__name__}"
 
 def search_news(topic):
     """
