@@ -195,9 +195,10 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
             )
             # Convert Pydantic model to dictionary for Supabase insertion
             report_data_to_insert = report_entry.model_dump(by_alias=True)
-            # Supabase expects JSONB for complex objects, ensure it's handled correctly
-            # For 'user_preferences' and 'final_report_data', they should be dicts
-            # Pydantic's model_dump already handles this, but good to be aware.
+            
+            # Manually convert datetime to ISO 8601 string format
+            if 'timestamp' in report_data_to_insert and isinstance(report_data_to_insert['timestamp'], datetime):
+                report_data_to_insert['timestamp'] = report_data_to_insert['timestamp'].isoformat()
 
             # Insert into 'reports' table in Supabase
             insert_response = await supabase_client.table("reports").insert(report_data_to_insert).execute()
