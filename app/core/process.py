@@ -186,6 +186,8 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
 
         # Save report to database
         try:
+            logger.info(f"user_preferences before Report: {user_preferences}")
+            logger.info(f"final_report_data['agent_details'] before Report: {final_report_data['agent_details']}")
             report_entry = Report(
                 job_id=job_id,
                 topic=final_report_data["topic"],
