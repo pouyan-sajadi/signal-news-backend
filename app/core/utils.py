@@ -2,7 +2,7 @@ import re
 import uuid
 import json
 from datetime import datetime
-from newspaper import Article
+import trafilatura
 from serpapi import GoogleSearch
 from app.config import SERPAPI_KEY, NUM_SOURCES
 from app.core.logger import logger
@@ -31,11 +31,18 @@ def is_json_serializable(article):
 def fetch_full_article(url):
     logger.debug(f"Attempting to fetch article from URL: {url}")
     try:
-        article = Article(url)
-        article.download()
-        article.parse()
-        logger.debug(f"Parsed article from {url}, length={len(article.text)} chars")
-        return article.text
+        downloaded = trafilatura.fetch_url(url)
+        if downloaded:
+            extracted_text = trafilatura.extract(downloaded, include_comments=False, include_tables=False)
+            if extracted_text:
+                logger.debug(f"Parsed article from {url}, length={len(extracted_text)} chars")
+                return extracted_text
+            else:
+                logger.warning(f"Trafilatura extracted no content from {url}")
+                return "Failed to extract article content: No content found"
+        else:
+            logger.warning(f"Trafilatura failed to download content from {url}")
+            return "Failed to fetch article content: Download failed"
     except Exception as e:
         logger.error(f"Error fetching full article from {url}: {e}")
         return f"Failed to fetch article content: {type(e).__name__}"
