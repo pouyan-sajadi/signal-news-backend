@@ -184,37 +184,7 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         }
         await notify({"step": "editing", "status": "completed", "data": final_report_data})
 
-        # Save report to database
-        try:
-            logger.info(f"user_preferences before Report: {user_preferences}")
-            logger.info(f"final_report_data['agent_details'] before Report: {final_report_data['agent_details']}")
-            report_entry = Report(
-                job_id=job_id,
-                topic=final_report_data["topic"],
-                refined_topic=final_report_data.get("refined_topic"),
-                user_preferences=user_preferences,
-                final_report_data=final_report_data["agent_details"]
-            )
-            # Convert Pydantic model to dictionary for Supabase insertion
-            report_data_to_insert = report_entry.model_dump(by_alias=True)
-            
-            # Manually convert datetime to ISO 8601 string format
-            if 'timestamp' in report_data_to_insert and isinstance(report_data_to_insert['timestamp'], datetime):
-                report_data_to_insert['timestamp'] = report_data_to_insert['timestamp'].isoformat()
-
-            # Insert into 'user_report_history' table in Supabase
-            insert_response = await supabase_client.table("user_report_history").insert(report_data_to_insert).execute()
-
-            if insert_response.data:
-                logger.info(f'Report {job_id} saved to Supabase.')
-            else:
-                logger.error(f"Failed to save report {job_id} to Supabase. Response: {insert_response.data}")
-                raise Exception(f"Supabase insert failed: {insert_response.data}")
-
-        except Exception as db_e:
-            logger.exception(f"Error saving report to Supabase: {db_e}")
-            await notify({"step": "error", "message": f"Failed to save report to Supabase: {db_e}"})
-            return False
+        
 
     except Exception as e:
         logger.exception("Error in Editing step")
