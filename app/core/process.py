@@ -65,8 +65,8 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         )
         refine_duration = time.time() - refine_start_time
         refined_topic = search_response.messages[-1]["content"].strip().strip('"')
-        logger.info(f"🤖 Search query refined in {refine_duration:.2f} seconds. New query: {refined_topic}")
-        logger.info(f"Checking if topics are identical: {refined_topic.lower() == topic.lower()}")
+        logger.debug(f"🤖 Search query refined in {refine_duration:.2f} seconds. New query: {refined_topic}")
+        logger.debug(f"Checking if topics are identical: {refined_topic.lower() == topic.lower()}")
 
         # Step 2: Search
         logger.info(f"🔍 Calling search_news function with refined topic: {refined_topic}")
@@ -74,7 +74,7 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         search_start_time = time.time()
         raw_news_json = await asyncio.to_thread(search_news, refined_topic)
         search_duration = time.time() - search_start_time
-        logger.info(f"✅ search_news function execution took {search_duration:.2f} seconds.")
+        logger.debug(f"✅ search_news function execution took {search_duration:.2f} seconds.")
         
         try:
             raw_news_list = json.loads(raw_news_json)

@@ -5,15 +5,15 @@ from app.core.logger import logger
 try:
     load_dotenv()
 except Exception as e:
-    logger.info(f"Could not load .env: {e}")
+    logger.debug(f"Could not load .env: {e}")
 
 def get_secret(key, default=None):
     """Get secret from environment variables."""
     env_value = os.getenv(key, default)
     if env_value:
-        logger.info(f"Got {key} from environment")
+        logger.debug(f"Got {key} from environment")
     else:
-        logger.info(f"❌ {key} not found in environment")
+        logger.error(f"❌ {key} not found in environment")
     return env_value
 
 # Load configuration

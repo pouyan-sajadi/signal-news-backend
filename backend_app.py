@@ -96,7 +96,7 @@ async def save_search_history(request: Request):
 
         # 3. Insert the data into the database
         logger.info(f"Attempting to insert search history for user {user.id} with topic '{search_topic}'")
-        logger.info(f"report_summary before Supabase insert: {report_summary}")
+        logger.debug(f"report_summary before Supabase insert: {report_summary}")
         insert_response = supabase.table("user_report_history").insert([
             {
                 "user_id": user.id,
@@ -106,7 +106,7 @@ async def save_search_history(request: Request):
         ]).execute()
 
         # Log the full response from Supabase for debugging
-        logger.info(f"Supabase insert response: {insert_response}")
+        logger.debug(f"Supabase insert response: {insert_response}")
 
         if insert_response.data:
             logger.info(f"Successfully saved search history for user {user.id}.")
@@ -149,7 +149,7 @@ async def get_search_history(request: Request):
             history_list = [record['report_summary'] for record in response.data]
             # Log the timestamp of the first item if history exists
             if history_list:
-                logger.info(f"Backend sending history. First item timestamp: {history_list[0].get('timestamp')}")
+                logger.debug(f"Backend sending history. First item timestamp: {history_list[0].get('timestamp')}")
             return history_list
         else:
             return []
@@ -196,7 +196,7 @@ async def get_report(job_id: str):
         # Query inside the JSONB column `report_summary` for the matching job_id
         response = supabase.table('user_report_history').select('*').eq('report_summary->>job_id', job_id).limit(1).execute()
         
-        logger.info(f"Supabase response for job_id {job_id}: {response}")
+        logger.debug(f"Supabase response for job_id {job_id}: {response}")
 
         if response.data:
             logger.info(f"Successfully fetched report for job_id: {job_id}")
