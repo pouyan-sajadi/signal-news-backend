@@ -17,6 +17,15 @@ This directory contains the FastAPI backend for the Signal news processing appli
     *   **Daily News Dashboard API:** Exposes a `/api/tech-pulse/latest` endpoint to fetch aggregated data for the daily news dashboard.
 *   **Secret Management:** Securely loads API keys and database URLs from environment variables (supports `.env` for local development).
 
+## Security: Defense in Depth with RLS
+
+This backend implements a robust "defense in depth" security model using Supabase's Row Level Security (RLS).
+
+*   **RLS Policies:** All tables containing user-specific data (e.g., `user_report_history`) are protected by RLS policies. These policies are the single source of truth for data access rules, ensuring at the database level that users can only read, write, and delete their own data.
+*   **User Impersonation:** API endpoints that access user-specific data are designed to impersonate the end-user. The user's JWT is forwarded to the database with each request, allowing the RLS policies to be correctly and securely enforced based on the user's identity (`auth.uid()`).
+
+This approach ensures that even if there were a bug in the application logic, the database itself would prevent any unauthorized data access.
+
 ## API Endpoints
 
 *   `POST /process_news`: Starts the news report generation process.
