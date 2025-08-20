@@ -186,27 +186,48 @@ async def get_latest_tech_pulse():
 
 
 @app.get("/reports/{job_id}")
-async def get_report(job_id: str):
+async def get_report(job_id: str, request: Request):
     """
-    Fetches a single report from the user_report_history table by its job_id
-    stored within the report_summary JSONB column.
+    Fetches a single report from the user_report_history table by its job_id,
+    ensuring the report belongs to the authenticated user.
     """
     try:
-        logger.info(f"Fetching report with job_id: {job_id}")
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
+            raise HTTPException(status_code=401, detail="Unauthorized")
         
-        # Query inside the JSONB column `report_summary` for the matching job_id
-        response = supabase.table('user_report_history').select('*').eq('report_summary->>job_id', job_id).limit(1).execute()
+        jwt_token = auth_header.split(' ')[1]
+        
+        try:
+            user_response = supabase.auth.get_user(jwt_token)
+            user = user_response.user
+            if not user:
+                raise HTTPException(status_code=401, detail="Invalid token")
+        except Exception as e:
+            logger.error(f"Supabase token verification failed: {e}")
+            raise HTTPException(status_code=401, detail="Invalid token")
+
+        logger.info(f"Fetching report with job_id: {job_id} for user: {user.id}")
+        
+        # Query for the report ensuring it matches both job_id and user_id
+        response = supabase.table('user_report_history')\
+            .select('*')\
+            .eq('user_id', user.id)\
+            .eq('report_summary->>job_id', job_id)\
+            .limit(1)\
+            .execute()
         
         logger.debug(f"Supabase response for job_id {job_id}: {response}")
 
         if response.data:
             logger.info(f"Successfully fetched report for job_id: {job_id}")
-            # Extract the report_summary JSON object and return it
             return response.data[0]['report_summary']
         else:
-            logger.warning(f"Report with job_id {job_id} not found.")
-            raise HTTPException(status_code=404, detail="Report not found")
+            logger.warning(f"Report with job_id {job_id} not found for user {user.id}.")
+            raise HTTPException(status_code=404, detail="Report not found or not authorized")
 
+    except HTTPException as http_exc:
+        raise http_exc
     except Exception as e:
         logger.exception(f"An error occurred while fetching report {job_id}: {e}")
         raise HTTPException(status_code=500, detail=f"An internal server error occurred: {str(e)}")
