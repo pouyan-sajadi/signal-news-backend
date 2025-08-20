@@ -141,7 +141,9 @@ async def get_search_history(request: Request):
 @app.get("/api/tech-pulse/latest")
 async def get_latest_tech_pulse():
     try:
-        # This is a public endpoint, so no user impersonation is needed.
+        # Explicitly reset auth to the service_role key to avoid using a stale user JWT
+        supabase.postgrest.auth(supabase_key)
+
         # RLS policy on tech_pulses table allows public read access.
         response = supabase.table('tech_pulses').select('pulse_data, created_at').order('created_at', desc=True).limit(1).single().execute()
 
