@@ -77,7 +77,6 @@ PyYAML==6.0.2
 regex==2024.11.6
 requests==2.32.4
 requests-file==2.1.0
-requests-file==2.1.0
 rich==14.0.0
 ruamel.yaml==0.18.14
 ruamel.yaml.clib==0.2.12
