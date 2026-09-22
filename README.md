@@ -1,6 +1,6 @@
 # Signal App Backend (FastAPI)
 
-This directory contains the FastAPI backend for the Signal news processing application. It is responsible for handling news processing workflows, communicating with external APIs (SerpAPI, OpenAI), providing real-time updates to the frontend via WebSockets, and managing user data via Supabase.
+This directory contains the FastAPI backend for the Signal news processing application. It handles news processing workflows, communicates with external APIs (SerpAPI and a configurable OpenAI-compatible LLM gateway), provides real-time updates to the frontend via WebSockets, and manages user data via Supabase.
 
 ## Features
 
@@ -21,7 +21,7 @@ This directory contains the FastAPI backend for the Signal news processing appli
 
 This backend implements a robust "defense in depth" security model using Supabase's Row Level Security (RLS).
 
-*   **RLS Policies:** All tables containing user-specific data (e.g., `user_report_history`) are protected by RLS policies. These policies are the single source of truth for data access rules, ensuring at the database level that users can only read, write, and delete their own data.
+*   **RLS Policies:** All tables containing user-specific data (e.g., `user_report_history`) are protected by RLS policies. These policies are the single source of truth for data access rules, ensuring that users can only read, write, and delete their own data.
 *   **User Impersonation:** API endpoints that access user-specific data are designed to impersonate the end-user. The user's JWT is forwarded to the database with each request, allowing the RLS policies to be correctly and securely enforced based on the user's identity (`auth.uid()`).
 
 This approach ensures that even if there were a bug in the application logic, the database itself would prevent any unauthorized data access.
@@ -60,11 +60,15 @@ This approach ensures that even if there were a bug in the application logic, th
 5.  **Configure API Keys and Environment Variables:**
     Create a `.env` file in the `signal-app-backend` directory and add the following:
     ```
-    OPENAI_API_KEY="your_openai_api_key_here"
-    SERPAPI_KEY="your_serpapi_key_here"
+    LLM_API_KEY="your_cheaperinference_or_omniroute_api_key"
+    LLM_BASE_URL="https://your-provider.example/v1"
+    LLM_MODEL="your-provider-model-name"
+    SERPAPI_API_KEY="your_serpapi_key_here"
     SUPABASE_URL="your_supabase_project_url"
     SUPABASE_SERVICE_ROLE_KEY="your_supabase_service_role_key"
     ```
+
+    `LLM_BASE_URL` must point to an OpenAI-compatible gateway that exposes `/chat/completions`. You can use CheaperInference, OmniRoute, or another compatible gateway. The backend does not fall back to an OpenAI API key; all LLM traffic uses the configured gateway and its routing/fallback strategy.
 
 ## Running the Backend
 
@@ -86,12 +90,13 @@ The backend will run on `http://127.0.0.1:8000`. The `--reload` flag is recommen
 *   `backend_app.py`: Main FastAPI application file. Defines all API and WebSocket endpoints, and handles Supabase integration.
 *   `app/`: Contains the core logic of the application.
     *   `__init__.py`: Initializes the `app` package.
-    *   `config.py`: Configuration settings, including secret loading.
-    *   `agents/`: Contains the definitions and logic for the various AI agents used in the processing pipeline (e.g., search, profiling, synthesis).
+    *   `config.py`: Configuration settings, including secret loading and LLM gateway configuration.
+    *   `agents/`: Contains provider-independent definitions and prompts for the processing agents.
+    *   `providers/`: Contains the async adapter for OpenAI-compatible LLM gateways.
     *   `core/`: Contains the core application modules.
-        *   `process.py`: Orchestrates the main news processing workflow, coordinating the AI agents.
+        *   `process.py`: Orchestrates the main news processing workflow, coordinating the agents and preserving WebSocket progress notifications.
         *   `logger.py`: Configures application-wide logging.
         *   `utils.py`: Utility functions used across the application.
 *   `requirements.txt`: A list of all Python dependencies required for the backend.
 *   `.env`: (Locally created) File for storing environment variables securely.
-*   `venv/`: (Locially created) Directory for the Python virtual environment.
+*   `venv/`: (Locally created) Directory for the Python virtual environment.
