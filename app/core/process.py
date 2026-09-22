@@ -9,7 +9,7 @@ from app.agents.agent_factory import (
     create_debate_synthesizer_agent,
     create_creative_editor_agent
 )
-from swarm import Swarm
+from app.providers.llm_client import llm_client
 from app.core.logger import logger
 from app.core.utils import search_news
 from pydantic import BaseModel, Field
@@ -36,8 +36,6 @@ class Report(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     final_report_data: AgentDetails
 
-client = Swarm()
-
 async def process_news_backend(job_id, topic, user_preferences, websocket_sender, supabase_client):
     """Run the news processing workflow, using a websocket to stream results."""
 
@@ -58,13 +56,11 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         await notify({"step": "search", "status": "running", "message": "🔍 Refining search query..."})
         search_agent_instance = create_search_agent()
         refine_start_time = time.time()
-        search_response = await asyncio.to_thread(
-            client.run,
-            agent=search_agent_instance,
-            messages=[{"role": "user", "content": topic}]
-        )
+        refined_topic = (await llm_client.chat(
+            system_prompt=search_agent_instance.instructions,
+            user_message=topic,
+        )).strip().strip('"')
         refine_duration = time.time() - refine_start_time
-        refined_topic = search_response.messages[-1]["content"].strip().strip('"')
         logger.debug(f"🤖 Search query refined in {refine_duration:.2f} seconds. New query: {refined_topic}")
         logger.debug(f"Checking if topics are identical: {refined_topic.lower() == topic.lower()}")
 
@@ -110,12 +106,10 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         await notify({"step": "profiling", "status": "running", "message": "🧠 Profiling sources..."})
         source_profiler_agent_instance = create_source_profiler_agent(focus)
         profiler_message = f"Profile these articles:\n{json.dumps(raw_news_list, indent=2)}"
-        profile_response = await asyncio.to_thread(
-            client.run,
-            agent=source_profiler_agent_instance,
-            messages=[{"role": "user", "content": profiler_message}]
-        )
-        profiling_output = json.loads(profile_response.messages[-1]["content"])
+        profiling_output = json.loads(await llm_client.chat(
+            system_prompt=source_profiler_agent_instance.instructions,
+            user_message=profiler_message,
+        ))
         await notify({"step": "profiling", "status": "completed", "data": profiling_output})
     except Exception as e:
         logger.exception("Error in Profiling step")
@@ -128,12 +122,10 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         await notify({"step": "selection", "status": "running", "message": "🧮 Selecting diverse articles..."})
         diversity_selector_agent_instance = create_diversity_selector_agent(focus, depth)
         diversity_message = f"Select a diverse subset from these profiles: {json.dumps(profiling_output, indent=2)}"
-        diversity_response = await asyncio.to_thread(
-            client.run,
-            agent=diversity_selector_agent_instance,
-            messages=[{"role": "user", "content": diversity_message}]
-        )
-        selected_ids = json.loads(diversity_response.messages[-1]["content"])
+        selected_ids = json.loads(await llm_client.chat(
+            system_prompt=diversity_selector_agent_instance.instructions,
+            user_message=diversity_message,
+        ))
         selected_articles = [a for a in raw_news_list if a["id"] in selected_ids]
         logger.info(f"Selected {len(selected_articles)} articles.")
         await notify({"step": "selection", "status": "completed", "data": selected_articles})
@@ -147,12 +139,10 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         logger.info("🗣️ Running Debate Synthesizer Agent...")
         await notify({"step": "synthesis", "status": "running", "message": "🗣️ Synthesizing the debate..."})
         debate_synthesizer_agent_instance = create_debate_synthesizer_agent(focus, depth)
-        debate_response = await asyncio.to_thread(
-            client.run,
-            agent=debate_synthesizer_agent_instance,
-            messages=[{"role": "user", "content": f"Create a debate report:\n{json.dumps(selected_articles, indent=2)}"}]
+        final_report = await llm_client.chat(
+            system_prompt=debate_synthesizer_agent_instance.instructions,
+            user_message=f"Create a debate report:\n{json.dumps(selected_articles, indent=2)}",
         )
-        final_report = debate_response.messages[-1]["content"]
         await notify({"step": "synthesis", "status": "completed", "data": final_report})
     except Exception as e:
         logger.exception("Error in Synthesis step")
@@ -164,12 +154,10 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         logger.info("🎨 Running Creative Editor Agent...")
         await notify({"step": "editing", "status": "running", "message": "🎨 Applying a creative touch..."})
         creative_editor_agent_instance = create_creative_editor_agent(focus, depth, tone)
-        creative_response = await asyncio.to_thread(
-            client.run,
-            agent=creative_editor_agent_instance,
-            messages=[{"role": "user", "content": f"Rewrite this report:\n{final_report}"}]
+        creative_report = await llm_client.chat(
+            system_prompt=creative_editor_agent_instance.instructions,
+            user_message=f"Rewrite this report:\n{final_report}",
         )
-        creative_report = creative_response.messages[-1]["content"]
         
         final_report_data = {
             "topic": topic,
