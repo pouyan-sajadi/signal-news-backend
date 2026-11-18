@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uuid
 import asyncio
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from app.core.process import process_news_backend
+from app.core.topic_trends import build_topic_history
 from app.core.logger import logger
 import uvicorn
 import json
@@ -20,6 +21,7 @@ load_dotenv()
 supabase_url = os.environ.get("SUPABASE_URL")
 supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 supabase: Client = create_client(supabase_url, supabase_key)
+pulse_history_supabase: Client = create_client(supabase_url, supabase_key)
 # --------------------
 
 app = FastAPI()
@@ -159,6 +161,26 @@ async def get_latest_tech_pulse():
     except Exception as e:
         logger.exception(f"Error fetching or parsing latest tech pulse: {e}")
         raise HTTPException(status_code=500, detail=f"Error processing tech pulse data: {str(e)}")
+
+@app.get("/api/tech-pulse/trends")
+def get_topic_trends():
+    last_day = datetime.now(timezone.utc).date()
+    first_day = last_day - timedelta(days=6)
+    next_day = last_day + timedelta(days=1)
+    try:
+        response = (
+            pulse_history_supabase.table("tech_pulses")
+            .select("created_at, pulse_data")
+            .gte("created_at", f"{first_day.isoformat()}T00:00:00Z")
+            .lt("created_at", f"{next_day.isoformat()}T00:00:00Z")
+            .order("created_at", desc=True)
+            .execute()
+        )
+        return {"days": build_topic_history(response.data, first_day, last_day)}
+    except Exception:
+        logger.exception("Error fetching Tech Pulse topic history")
+        raise HTTPException(status_code=503, detail="Topic history is temporarily unavailable.")
+
 
 @app.get("/reports/{job_id}")
 async def get_report(job_id: str, request: Request):
