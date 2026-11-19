@@ -1,12 +1,12 @@
 # Signal App Backend (FastAPI)
 
-This directory contains the FastAPI backend for the Signal news processing application. It handles news processing workflows, communicates with external APIs (SerpAPI and a configurable OpenAI-compatible LLM gateway), provides real-time updates to the frontend via WebSockets, and manages user data via Supabase.
+This directory contains the FastAPI backend for the Signal news processing application. It runs report jobs, talks to SerpAPI and an OpenAI-compatible LLM gateway, serves report progress and results, and manages user data via Supabase.
 
 ## Features
 
 *   **News Processing Engine:**
-    *   **HTTP API:** Exposes a `/process_news` endpoint to initiate news processing with a given topic and user preferences.
-    *   **WebSocket API:** Provides a `/ws/status/{job_id}` endpoint for real-time status updates and final report delivery.
+    *   **HTTP API:** Starts processing with `POST /process_news`. The frontend can read progress and retrieve the result with `GET /report-jobs/{job_id}`, including after reconnecting.
+    *   **WebSocket compatibility:** Older clients can still receive live updates at `/ws/status/{job_id}`.
     *   **Agent-based Processing:** Utilizes AI agents for search query refinement, source profiling, diversity selection, debate synthesis, and creative editing.
 *   **User and Report Data Management:**
     *   **Authentication:** Manages user authentication using Supabase.
@@ -29,12 +29,15 @@ This approach ensures that even if there were a bug in the application logic, th
 ## API Endpoints
 
 *   `POST /process_news`: Starts the news report generation process.
+*   `GET /report-jobs/{job_id}`: Returns the latest progress, the finished report, or a short failure code for the frontend.
 *   `WS /ws/status/{job_id}`: Real-time progress updates for a generation job.
 *   `POST /api/history`: Saves a new report to the user's history (requires authentication).
 *   `GET /api/history`: Retrieves the authenticated user's report history.
 *   `DELETE /api/history/{job_id}`: Deletes a specific report from the user's history (requires authentication).
 *   `GET /reports/{job_id}`: Retrieves a single, specific report by its job ID.
 *   `GET /api/tech-pulse/latest`: Fetches the latest data for the "Tech Pulse" dashboard.
+
+The deployed service runs one worker. It keeps report job state in memory for one hour after completion, so a worker restart ends unfinished jobs and clears these temporary results. Reports already saved to history use the existing Supabase storage.
 
 ## Setup and Installation
 
@@ -94,7 +97,7 @@ The backend will run on `http://127.0.0.1:8000`. The `--reload` flag is recommen
     *   `agents/`: Contains provider-independent definitions and prompts for the processing agents.
     *   `providers/`: Contains the async adapter for OpenAI-compatible LLM gateways.
     *   `core/`: Contains the core application modules.
-        *   `process.py`: Orchestrates the main news processing workflow, coordinating the agents and preserving WebSocket progress notifications.
+        *   `process.py`: Runs the news workflow and publishes progress and results for each report.
         *   `logger.py`: Configures application-wide logging.
         *   `utils.py`: Utility functions used across the application.
 *   `requirements.txt`: A list of all Python dependencies required for the backend.

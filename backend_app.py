@@ -1,10 +1,11 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Request
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uuid
 import asyncio
+from dataclasses import dataclass, field
 from datetime import datetime
-from app.core.process import process_news_backend
+from app.core.process import process_news_backend, report_error
 from app.core.logger import logger
 import uvicorn
 import json
@@ -40,28 +41,106 @@ class NewsRequest(BaseModel):
     topic: str
     user_preferences: dict
 
-connections = {}
+REPORT_TIMEOUT_SECONDS = 15 * 60
+REPORT_RETENTION_SECONDS = 60 * 60
+
+
+@dataclass
+class ReportJob:
+    update: dict = field(default_factory=lambda: {"step": "search", "status": "running"})
+    refined_topic: str | None = None
+    websocket: WebSocket | None = None
+
+
+# The service runs with one worker. Keep a job's latest update independent of its WebSocket.
+report_jobs: dict[str, ReportJob] = {}
+report_tasks: set[asyncio.Task] = set()
+
+
+async def send_report_update(job: ReportJob, websocket: WebSocket):
+    try:
+        await asyncio.wait_for(websocket.send_json(job.update), timeout=2)
+    except Exception:
+        if job.websocket is websocket:
+            job.websocket = None
+
+
+async def run_report_job(job_id: str, job: ReportJob, request: NewsRequest):
+    async def publish(update: dict):
+        job.update = update
+        if update.get("refined_topic"):
+            job.refined_topic = update["refined_topic"]
+        if job.websocket is not None:
+            await send_report_update(job, job.websocket)
+
+    try:
+        await asyncio.wait_for(
+            process_news_backend(request.topic, request.user_preferences, publish),
+            timeout=REPORT_TIMEOUT_SECONDS,
+        )
+        if job.update["status"] != "error" and not (
+            job.update["step"] == "editing" and job.update["status"] == "completed"
+        ):
+            await publish(report_error(job.update["step"]))
+    except asyncio.TimeoutError:
+        logger.warning("Report job %s timed out", job_id)
+        await publish(report_error(job.update["step"], "timed_out"))
+    except Exception:
+        logger.exception("Report job %s failed", job_id)
+        await publish(report_error(job.update["step"]))
+    finally:
+        asyncio.get_running_loop().call_later(REPORT_RETENTION_SECONDS, report_jobs.pop, job_id, None)
+
 
 @app.post("/process_news")
 async def process_news(request: NewsRequest):
-    logger.info(f"Received request for topic: {request.topic}")
+    request.topic = request.topic.strip()
+    if not request.topic:
+        raise HTTPException(status_code=422, detail="Enter a topic to start a report.")
     job_id = str(uuid.uuid4())
-    connections[job_id] = None
-    logger.info(f"Created job_id: {job_id}")
-    asyncio.create_task(process_news_backend(job_id, request.topic, request.user_preferences, get_websocket_sender(job_id), supabase))
+    job = ReportJob()
+    report_jobs[job_id] = job
+    task = asyncio.create_task(run_report_job(job_id, job, request))
+    report_tasks.add(task)
+    task.add_done_callback(report_tasks.discard)
     return {"message": "Process started", "job_id": job_id}
+
+
+@app.get("/report-jobs/{job_id}")
+async def get_report_job(job_id: str, response: Response):
+    headers = {"Cache-Control": "no-store"}
+    job = report_jobs.get(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="This report session has expired.", headers=headers)
+    response.headers.update(headers)
+
+    update = job.update
+    status = update["status"]
+    step = update["step"]
+    if status == "error":
+        return {"status": "error", "step": step, "code": update["code"]}
+    if status == "completed" and step == "editing":
+        return {"status": "completed", "step": step, "data": update["data"]}
+    return {"status": "running", "step": step, "refined_topic": job.refined_topic}
+
 
 @app.websocket("/ws/status/{job_id}")
 async def websocket_endpoint(websocket: WebSocket, job_id: str):
+    job = report_jobs.get(job_id)
+    if job is None:
+        await websocket.close(code=1008)
+        return
     await websocket.accept()
-    connections[job_id] = websocket
-    logger.info(f"WebSocket connection established for job_id: {job_id}")
+    job.websocket = websocket
     try:
+        await send_report_update(job, websocket)
         while True:
             await websocket.receive_text()
     except WebSocketDisconnect:
         logger.info(f"WebSocket connection closed for job_id: {job_id}")
-        del connections[job_id]
+    finally:
+        if job.websocket is websocket:
+            job.websocket = None
 
 @app.get("/")
 async def read_root():
@@ -214,13 +293,3 @@ async def delete_search_history(job_id: str, request: Request):
     except Exception as e:
         logger.exception(f"Error deleting search history: {e}")
         raise HTTPException(status_code=500, detail=f"An internal error occurred: {str(e)}")
-
-
-def get_websocket_sender(job_id: str):
-    async def sender(data: dict):
-        if job_id in connections and connections[job_id]:
-            try:
-                await connections[job_id].send_json(data)
-            except Exception as e:
-                logger.error(f"Error sending websocket message for job_id {job_id}: {e}")
-    return sender

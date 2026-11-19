@@ -36,12 +36,17 @@ class Report(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     final_report_data: AgentDetails
 
-async def process_news_backend(job_id, topic, user_preferences, websocket_sender, supabase_client):
-    """Run the news processing workflow, using a websocket to stream results."""
+def report_error(step, code="unavailable"):
+    messages = {
+        "no_articles": "We couldn't find recent coverage for that topic. Try a broader search.",
+        "timed_out": "This report took too long to finish. Try a narrower topic or try again.",
+        "unavailable": "We couldn't finish your report. Please try again in a moment.",
+    }
+    return {"step": step, "status": "error", "code": code, "message": messages[code]}
 
-    async def notify(data):
-        await websocket_sender(data)
 
+async def process_news_backend(topic, user_preferences, notify):
+    """Run the news pipeline and publish progress and results."""
     focus = user_preferences.get("focus", "Just the Facts")
     depth = user_preferences.get("depth", 2)
     tone = user_preferences.get("tone", "News with attitude")
@@ -68,36 +73,20 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         logger.info(f"🔍 Calling search_news function with refined topic: {refined_topic}")
         await notify({"step": "search", "status": "running", "message": f"🔍 Searching for: {refined_topic}", "refined_topic": refined_topic})
         search_start_time = time.time()
-        raw_news_json = await asyncio.to_thread(search_news, refined_topic)
+        raw_news_list = await asyncio.to_thread(search_news, refined_topic)
         search_duration = time.time() - search_start_time
         logger.debug(f"✅ search_news function execution took {search_duration:.2f} seconds.")
         
-        try:
-            raw_news_list = json.loads(raw_news_json)
-        except json.JSONDecodeError:
-            logger.error(f"Failed to decode JSON from search_news output: {raw_news_json}")
-            await notify({
-                "step": "search", 
-                "status": "error", 
-                 "message": f"We're having trouble understanding the search results. This might be a temporary issue with the news provider. Please try a different topic or try again later."
-            })
-            return False
-
         if not raw_news_list:
             logger.warning(f"No articles found for topic: {refined_topic}")
-            await notify({
-                "step": "search", 
-                "status": "error", 
-                 "message": f"We couldn't find any recent articles for '{refined_topic}'. The topic might be too specific, or not currently widely covered. Try a broader term or a more current event."
-            })
+            await notify(report_error("search", "no_articles"))
             return False
             
         logger.info(f"Found {len(raw_news_list)} articles.")
         await notify({"step": "search", "status": "completed", "data": raw_news_list, "refined_topic": refined_topic})
-    except Exception as e:
+    except Exception:
         logger.exception("Error in Search step")
-        await notify({"step": "error", "message": f"The news search encountered an unexpected problem. This could be a network issue or a problem with the search service. Please check your internet connection and try again."
-})
+        await notify(report_error("search"))
         return False
 
     # Step 3: Profile Sources
@@ -111,9 +100,9 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
             user_message=profiler_message,
         ))
         await notify({"step": "profiling", "status": "completed", "data": profiling_output})
-    except Exception as e:
+    except Exception:
         logger.exception("Error in Profiling step")
-        await notify({"step": "error", "message": f"Profiling failed: {e}"})
+        await notify(report_error("profiling"))
         return False
 
     # Step 4: Select Diverse Subset
@@ -129,9 +118,9 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
         selected_articles = [a for a in raw_news_list if a["id"] in selected_ids]
         logger.info(f"Selected {len(selected_articles)} articles.")
         await notify({"step": "selection", "status": "completed", "data": selected_articles})
-    except Exception as e:
+    except Exception:
         logger.exception("Error in Selection step")
-        await notify({"step": "error", "message": f"Selection failed: {e}"})
+        await notify(report_error("selection"))
         return False
 
     # Step 5: Synthesize Debate
@@ -144,9 +133,9 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
             user_message=f"Create a debate report:\n{json.dumps(selected_articles, indent=2)}",
         )
         await notify({"step": "synthesis", "status": "completed", "data": final_report})
-    except Exception as e:
+    except Exception:
         logger.exception("Error in Synthesis step")
-        await notify({"step": "error", "message": f"Synthesis failed: {e}"})
+        await notify(report_error("synthesis"))
         return False
 
     # Step 6: Creative Editor
@@ -158,6 +147,8 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
             system_prompt=creative_editor_agent_instance.instructions,
             user_message=f"Rewrite this report:\n{final_report}",
         )
+        if not creative_report.strip():
+            raise ValueError("Editor returned an empty report.")
         
         final_report_data = {
             "topic": topic,
@@ -174,11 +165,10 @@ async def process_news_backend(job_id, topic, user_preferences, websocket_sender
 
         
 
-    except Exception as e:
+    except Exception:
         logger.exception("Error in Editing step")
-        await notify({"step": "error", "message": f"Editing failed: {e}"})
+        await notify(report_error("editing"))
         return False
         
-    await asyncio.sleep(1) # Add a small delay to ensure the last message is sent
     return True
 
