@@ -53,7 +53,7 @@ def search_news(topic):
 
     This function is designed to be called **once** by the search agent within the multi-agent pipeline.
     It uses SerpAPI to retrieve headlines and the Newspaper library to extract full article content.
-    Returns a structured and cleaned JSON string of articles for downstream analysis.
+    Returns cleaned articles for downstream analysis.
     """
     logger.debug("Calling SerpAPI...")
     params = {
@@ -64,22 +64,11 @@ def search_news(topic):
         "api_key": SERPAPI_KEY  
 
     }
-    logger.debug(f"Search parameters: {params}")
-
-    try:
-        search = GoogleSearch(params)
-        results = search.get_dict()
-        news_results = results.get("news_results", [])
-        logger.info(f"🔍 Found {len(news_results)} results from SerpAPI")
-        for i, item in enumerate(news_results):
-            logger.debug(f"{i+1}. {item.get('title', 'No title')}")
-
-
-    except Exception as e:
-        return f"[Error fetching search results: {e}]"
-
-    if not news_results:
-        return f"No news found for {topic}."
+    results = GoogleSearch(params).get_dict()
+    if results.get("error"):
+        raise RuntimeError("News provider returned an error.")
+    news_results = results.get("news_results", [])
+    logger.info("Found %d results from SerpAPI", len(news_results))
 
     compiled = []
     with ThreadPoolExecutor(max_workers=NUM_SOURCES) as executor:
@@ -107,4 +96,4 @@ def search_news(topic):
             except Exception as exc:
                 logger.error(f"🚨 Article at {item.get('link')} generated an exception: {exc}")
 
-    return json.dumps(compiled, indent=2, ensure_ascii=False)
+    return compiled
