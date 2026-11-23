@@ -16,6 +16,17 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 
+DEFAULT_EDITOR_TONE = "News with attitude"
+EDITOR_TONES = {
+    "Grandma Mode": "Grandma Mode",
+    "Gen Z Mode": "Gen Z Mode",
+    "Express Mode": "Sharp & Snappy",
+    "Commentary Mode": DEFAULT_EDITOR_TONE,
+    # Older clients send the editor prompt names directly.
+    "Sharp & Snappy": "Sharp & Snappy",
+    "News with attitude": DEFAULT_EDITOR_TONE,
+}
+
 class ReportPreferences(BaseModel):
     focus: str
     depth: int
@@ -49,9 +60,10 @@ async def process_news_backend(topic, user_preferences, notify):
     """Run the news pipeline and publish progress and results."""
     focus = user_preferences.get("focus", "Just the Facts")
     depth = user_preferences.get("depth", 2)
-    tone = user_preferences.get("tone", "News with attitude")
-    if tone not in ["Grandma Mode", "News with attitude", "Gen Z Mode", "Sharp & Snappy"]:
-        tone = "News with attitude"
+    requested_tone = user_preferences.get("tone")
+    tone = DEFAULT_EDITOR_TONE
+    if isinstance(requested_tone, str):
+        tone = EDITOR_TONES.get(requested_tone, DEFAULT_EDITOR_TONE)
     
     os.makedirs("news_output", exist_ok=True)
 
