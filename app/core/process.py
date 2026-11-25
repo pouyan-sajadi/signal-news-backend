@@ -56,6 +56,23 @@ def report_error(step, code="unavailable"):
     return {"step": step, "status": "error", "code": code, "message": messages[code]}
 
 
+def resolve_selected_articles(raw_news_list, selected_ids):
+    """Resolve selector IDs against retrieved evidence in retrieval order.
+
+    Unknown IDs are ignored when at least one retrieved article matches. A
+    malformed selection or one with no matching IDs is rejected so synthesis
+    never runs without evidence.
+    """
+    if not isinstance(selected_ids, list) or any(not isinstance(item, str) for item in selected_ids):
+        raise ValueError("Selector output must be a JSON list of article ID strings.")
+
+    requested_ids = set(selected_ids)
+    selected_articles = [article for article in raw_news_list if article.get("id") in requested_ids]
+    if not selected_articles:
+        raise ValueError("Selector output did not identify any retrieved articles.")
+    return selected_articles
+
+
 async def process_news_backend(topic, user_preferences, notify):
     """Run the news pipeline and publish progress and results."""
     focus = user_preferences.get("focus", "Just the Facts")
@@ -127,7 +144,7 @@ async def process_news_backend(topic, user_preferences, notify):
             system_prompt=diversity_selector_agent_instance.instructions,
             user_message=diversity_message,
         ))
-        selected_articles = [a for a in raw_news_list if a["id"] in selected_ids]
+        selected_articles = resolve_selected_articles(raw_news_list, selected_ids)
         logger.info(f"Selected {len(selected_articles)} articles.")
         await notify({"step": "selection", "status": "completed", "data": selected_articles})
     except Exception:
