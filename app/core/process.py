@@ -8,6 +8,7 @@ from app.agents.agent_factory import (
     create_debate_synthesizer_agent,
     create_creative_editor_agent
 )
+from app.agents.prompts import NO_SEARCHABLE_TOPIC
 from app.core.citations import validate_draft_citations, validate_edited_citations
 from app.core.source_selection import profile_sources, request_selected_ids, resolve_selected_articles
 from app.providers.llm_client import llm_client
@@ -51,6 +52,7 @@ class Report(BaseModel):
 
 def report_error(step, code="unavailable"):
     messages = {
+        "invalid_topic": "We couldn't identify a news topic. Try a different topic.",
         "no_articles": "We couldn't find recent coverage for that topic. Try a broader search.",
         "timed_out": "This report took too long to finish. Try a narrower topic or try again.",
         "unavailable": "We couldn't finish your report. Please try again in a moment.",
@@ -78,9 +80,13 @@ async def process_news_backend(topic, user_preferences, notify):
         refined_topic = (await llm_client.chat(
             system_prompt=search_agent_instance.instructions,
             user_message=topic,
-        )).strip().strip('"')
+        )).strip().strip('"').strip()
         refine_duration = time.time() - refine_start_time
         logger.debug("Search query refined in %.2f seconds", refine_duration)
+        if refined_topic == NO_SEARCHABLE_TOPIC:
+            await notify(report_error("search", "invalid_topic"))
+            return False
+
         logger.debug(f"Checking if topics are identical: {refined_topic.lower() == topic.lower()}")
 
         # Step 2: Search

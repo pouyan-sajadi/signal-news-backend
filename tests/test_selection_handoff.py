@@ -39,17 +39,18 @@ PROFILES = [
 
 
 class FakeLLM:
-    def __init__(self, selection_text, profiling_text=json.dumps(PROFILES), *, draft=None, edited=None):
+    def __init__(self, selection_text, profiling_text=json.dumps(PROFILES), *, draft=None, edited=None, refined_topic="Refined topic"):
         self.selection_text = selection_text
         self.profiling_text = profiling_text
         self.draft = draft
         self.edited = edited
+        self.refined_topic = refined_topic
         self.calls = []
 
     async def chat(self, system_prompt, user_message):
         self.calls.append((system_prompt, user_message))
         if len(self.calls) == 1:
-            return "Refined topic"
+            return self.refined_topic
         if len(self.calls) == 2:
             return self.profiling_text
         if len(self.calls) == 3:
@@ -218,6 +219,27 @@ class SelectionHandoffTests(unittest.TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.json(), {"status": "error", "step": "profiling", "code": "unavailable"})
             self.assertEqual(len(fake.calls), 2)
+
+    def test_http_job_rejects_unsearchable_topic_before_retrieval(self):
+        topic = "zqvqxjkl nfrtpswz drkxvqp 994037"
+        fake = FakeLLM('{"article_ids": ["article-1"]}', refined_topic=' "NO_SEARCHABLE_TOPIC"\n')
+        with (
+            patch.object(process, "llm_client", fake),
+            patch.object(process, "search_news", side_effect=NewsSearchError("timeout")) as search,
+            TestClient(backend_app.app) as client,
+        ):
+            started = client.post("/process_news", json={"topic": topic, "user_preferences": PREFERENCES})
+            self.assertEqual(started.status_code, 200)
+            job_id = started.json()["job_id"]
+            for _ in range(100):
+                response = client.get(f"/report-jobs/{job_id}")
+                if response.json()["status"] != "running":
+                    break
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json(), {"status": "error", "step": "search", "code": "invalid_topic"})
+        search.assert_not_awaited()
+        self.assertEqual(len(fake.calls), 1)
+        self.assertEqual(fake.calls[0][1], topic)
 
     def test_http_job_distinguishes_search_failure_outcomes(self):
         candidate = NewsCandidate("Title", "Source", "", "https://example.test/news", "https://example.test/news")
