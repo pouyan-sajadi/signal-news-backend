@@ -1,7 +1,6 @@
 import json
 import os
 import time
-import asyncio
 from app.agents.agent_factory import (
     create_search_agent,
     create_source_profiler_agent,
@@ -9,10 +8,13 @@ from app.agents.agent_factory import (
     create_debate_synthesizer_agent,
     create_creative_editor_agent
 )
+from app.core.citations import validate_draft_citations, validate_edited_citations
+from app.core.source_selection import profile_sources, request_selected_ids, resolve_selected_articles
 from app.providers.llm_client import llm_client
 from app.core.logger import logger
 from app.core.utils import search_news
-from pydantic import BaseModel, Field
+from app.providers.serpapi_news import NewsSearchError
+from pydantic import BaseModel, Field, ValidationError
 from typing import Optional, List
 from datetime import datetime
 
@@ -56,23 +58,6 @@ def report_error(step, code="unavailable"):
     return {"step": step, "status": "error", "code": code, "message": messages[code]}
 
 
-def resolve_selected_articles(raw_news_list, selected_ids):
-    """Resolve selector IDs against retrieved evidence in retrieval order.
-
-    Unknown IDs are ignored when at least one retrieved article matches. A
-    malformed selection or one with no matching IDs is rejected so synthesis
-    never runs without evidence.
-    """
-    if not isinstance(selected_ids, list) or any(not isinstance(item, str) for item in selected_ids):
-        raise ValueError("Selector output must be a JSON list of article ID strings.")
-
-    requested_ids = set(selected_ids)
-    selected_articles = [article for article in raw_news_list if article.get("id") in requested_ids]
-    if not selected_articles:
-        raise ValueError("Selector output did not identify any retrieved articles.")
-    return selected_articles
-
-
 async def process_news_backend(topic, user_preferences, notify):
     """Run the news pipeline and publish progress and results."""
     focus = user_preferences.get("focus", "Just the Facts")
@@ -95,24 +80,28 @@ async def process_news_backend(topic, user_preferences, notify):
             user_message=topic,
         )).strip().strip('"')
         refine_duration = time.time() - refine_start_time
-        logger.debug(f"🤖 Search query refined in {refine_duration:.2f} seconds. New query: {refined_topic}")
+        logger.debug("Search query refined in %.2f seconds", refine_duration)
         logger.debug(f"Checking if topics are identical: {refined_topic.lower() == topic.lower()}")
 
         # Step 2: Search
-        logger.info(f"🔍 Calling search_news function with refined topic: {refined_topic}")
         await notify({"step": "search", "status": "running", "message": f"🔍 Searching for: {refined_topic}", "refined_topic": refined_topic})
         search_start_time = time.time()
-        raw_news_list = await asyncio.to_thread(search_news, refined_topic)
+        raw_news_list = await search_news(refined_topic)
         search_duration = time.time() - search_start_time
         logger.debug(f"✅ search_news function execution took {search_duration:.2f} seconds.")
         
         if not raw_news_list:
-            logger.warning(f"No articles found for topic: {refined_topic}")
+            logger.warning("No articles found")
             await notify(report_error("search", "no_articles"))
             return False
             
         logger.info(f"Found {len(raw_news_list)} articles.")
         await notify({"step": "search", "status": "completed", "data": raw_news_list, "refined_topic": refined_topic})
+    except NewsSearchError as error:
+        logger.warning("Report search failed: %s", error.reason)
+        code = "timed_out" if error.reason == "timeout" else "unavailable"
+        await notify(report_error("search", code))
+        return False
     except Exception:
         logger.exception("Error in Search step")
         await notify(report_error("search"))
@@ -123,12 +112,16 @@ async def process_news_backend(topic, user_preferences, notify):
         logger.info("🧠 Running Source Profiler Agent...")
         await notify({"step": "profiling", "status": "running", "message": "🧠 Profiling sources..."})
         source_profiler_agent_instance = create_source_profiler_agent(focus)
-        profiler_message = f"Profile these articles:\n{json.dumps(raw_news_list, indent=2)}"
-        profiling_output = json.loads(await llm_client.chat(
-            system_prompt=source_profiler_agent_instance.instructions,
-            user_message=profiler_message,
-        ))
+        profiling_output = await profile_sources(
+            raw_news_list, source_profiler_agent_instance.instructions, llm_client.chat,
+        )
+        logger.info("Kept %d profiles for %d retrieved articles.", len(profiling_output), len(raw_news_list))
         await notify({"step": "profiling", "status": "completed", "data": profiling_output})
+    except ValidationError as error:
+        error_types = sorted({issue["type"] for issue in error.errors(include_input=False)})
+        logger.error("Invalid profiler response: %s", ", ".join(error_types))
+        await notify(report_error("profiling"))
+        return False
     except Exception:
         logger.exception("Error in Profiling step")
         await notify(report_error("profiling"))
@@ -139,14 +132,17 @@ async def process_news_backend(topic, user_preferences, notify):
         logger.info("🧮 Running Diversity Selector Agent...")
         await notify({"step": "selection", "status": "running", "message": "🧮 Selecting diverse articles..."})
         diversity_selector_agent_instance = create_diversity_selector_agent(focus, depth)
-        diversity_message = f"Select a diverse subset from these profiles: {json.dumps(profiling_output, indent=2)}"
-        selected_ids = json.loads(await llm_client.chat(
-            system_prompt=diversity_selector_agent_instance.instructions,
-            user_message=diversity_message,
-        ))
+        selected_ids = await request_selected_ids(
+            profiling_output, diversity_selector_agent_instance.instructions, llm_client.chat,
+        )
         selected_articles = resolve_selected_articles(raw_news_list, selected_ids)
         logger.info(f"Selected {len(selected_articles)} articles.")
         await notify({"step": "selection", "status": "completed", "data": selected_articles})
+    except ValidationError as error:
+        error_types = sorted({issue["type"] for issue in error.errors(include_input=False)})
+        logger.error("Invalid selector response: %s", ", ".join(error_types))
+        await notify(report_error("selection"))
+        return False
     except Exception:
         logger.exception("Error in Selection step")
         await notify(report_error("selection"))
@@ -161,6 +157,7 @@ async def process_news_backend(topic, user_preferences, notify):
             system_prompt=debate_synthesizer_agent_instance.instructions,
             user_message=f"Create a debate report:\n{json.dumps(selected_articles, indent=2)}",
         )
+        draft_citations = validate_draft_citations(final_report, selected_articles)
         await notify({"step": "synthesis", "status": "completed", "data": final_report})
     except Exception:
         logger.exception("Error in Synthesis step")
@@ -176,8 +173,7 @@ async def process_news_backend(topic, user_preferences, notify):
             system_prompt=creative_editor_agent_instance.instructions,
             user_message=f"Rewrite this report:\n{final_report}",
         )
-        if not creative_report.strip():
-            raise ValueError("Editor returned an empty report.")
+        validate_edited_citations(creative_report, draft_citations)
         
         final_report_data = {
             "topic": topic,

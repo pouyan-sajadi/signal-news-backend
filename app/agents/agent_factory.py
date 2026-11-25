@@ -48,7 +48,11 @@ def create_debate_synthesizer_agent(focus: str, depth: int) -> AgentConfig:
 def create_creative_editor_agent(
     focus: str, depth: int, tone: str
 ) -> AgentConfig:
+    style = get_creative_editor_prompt(focus, depth, tone)
     return AgentConfig(
         name="Creative Editor",
-        instructions=get_creative_editor_prompt(focus, depth, tone),
+        instructions=(
+            f"{style}\n\nPreserve every distinct citation URL from the draft as a clickable Markdown link. "
+            "You may reword the link text or move the link. Use the exact draft URLs and add no new URLs."
+        ),
     )

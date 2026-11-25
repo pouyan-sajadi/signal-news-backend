@@ -1,99 +1,130 @@
-import re
+import asyncio
 import uuid
-import json
-from datetime import datetime
+from dataclasses import dataclass
+
+import httpx
 import trafilatura
-from serpapi import GoogleSearch
-from app.config import SERPAPI_KEY, NUM_SOURCES
+
 from app.core.logger import logger
-import logging
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from app.providers.serpapi_news import GOOGLE_NEWS, NEWS_TAB, NewsSearchError, discover_news
 
-def clean_text(text):
-    if not isinstance(text, str):
+
+MIN_READABLE_ARTICLES = 3
+MAX_ARTICLES = 15
+MAX_CONCURRENT_EXTRACTIONS = 6
+ARTICLE_TIMEOUT_SECONDS = 6
+SEARCH_TIMEOUT_SECONDS = 55
+MAX_ARTICLE_BYTES = 2_000_000
+
+
+@dataclass(frozen=True)
+class SearchBatch:
+    articles: list[dict]
+    candidates: int
+    duplicates: int
+    attempted: int
+
+    @property
+    def unreadable(self) -> int:
+        return self.attempted - len(self.articles)
+
+
+async def fetch_article_text(client: httpx.AsyncClient, url: str) -> str:
+    """Fetch a bounded response and extract its article text."""
+    try:
+        async with asyncio.timeout(ARTICLE_TIMEOUT_SECONDS):
+            async with client.stream("GET", url, follow_redirects=True) as response:
+                response.raise_for_status()
+                data = bytearray()
+                async for chunk in response.aiter_bytes(chunk_size=65536):
+                    data.extend(chunk)
+                    if len(data) > MAX_ARTICLE_BYTES:
+                        return ""
+            text = await asyncio.to_thread(
+                trafilatura.extract, bytes(data), include_comments=False, include_tables=False,
+            )
+    except (TimeoutError, httpx.HTTPError, httpx.InvalidURL, ValueError):
         return ""
-    text = re.sub(r'[\x00-\x1f\x7f]', ' ', text)  # remove control chars
-    text = text.replace('\\', ' ')                # remove stray backslashes
-    text = text.replace('"', "'")                 # avoid breaking quotes
-    text = re.sub(r'\s+', ' ', text)              # collapse whitespace
-    return text.strip()
+    return " ".join(text.split()) if text else ""
 
-def is_json_serializable(article):
+
+async def collect_engine_articles(topic, engine, discover, extract, *, limit=MAX_ARTICLES, seen=None) -> SearchBatch:
+    """Run one discovery request and the common extraction path in discovery order."""
+    candidates = await discover(topic, engine)
+    seen = seen if seen is not None else set()
+    unique = {}
+    for candidate in candidates:
+        if candidate.url_key not in seen:
+            unique.setdefault(candidate.url_key, candidate)
+    selected = list(unique.values())[:limit]
+    seen.update(candidate.url_key for candidate in selected)
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT_EXTRACTIONS)
+
+    async def extract_one(candidate):
+        async with semaphore:
+            content = await extract(candidate.url)
+        if not content:
+            return None
+        return {
+            "id": str(uuid.uuid4()),
+            "title": candidate.title,
+            "source": candidate.source,
+            "date": candidate.date,
+            "url": candidate.url,
+            "content": content,
+        }
+
+    results = await asyncio.gather(*(extract_one(candidate) for candidate in selected))
+    batch = SearchBatch(
+        articles=[article for article in results if article is not None],
+        candidates=len(candidates),
+        duplicates=len(candidates) - len(unique),
+        attempted=len(selected),
+    )
+    logger.info(
+        "News discovery engine=%s candidates=%d duplicates=%d attempted=%d readable=%d",
+        engine, batch.candidates, batch.duplicates, batch.attempted, len(batch.articles),
+    )
+    return batch
+
+
+async def retrieve_news(topic, discover, extract, *, limit=MAX_ARTICLES) -> list[dict]:
+    """Try the News tab once after a successful but sparse Google News search."""
+    seen = set()
+    articles = []
     try:
-        json.dumps(article, ensure_ascii=False)
-        return True
-    except (TypeError, ValueError) as e:  
-        logger.error(f"🚨 JSON serialization failed for article: {article.get('title', '[no title]')}")
-        logger.debug(f"Full article data:\n{json.dumps(article, indent=2, ensure_ascii=False, default=str)}")  # Add default=str for debugging
-        logger.error(f"❌ Error: {e}")
-        return False    
+        async with asyncio.timeout(SEARCH_TIMEOUT_SECONDS):
+            primary = await collect_engine_articles(topic, GOOGLE_NEWS, discover, extract, limit=limit, seen=seen)
+            articles = primary.articles
+            if len(articles) >= min(MIN_READABLE_ARTICLES, limit):
+                return articles
 
-def fetch_full_article(url):
-    logger.debug(f"Attempting to fetch article from URL: {url}")
-    try:
-        downloaded = trafilatura.fetch_url(url)
-        if downloaded:
-            extracted_text = trafilatura.extract(downloaded, include_comments=False, include_tables=False)
-            if extracted_text:
-                logger.debug(f"Parsed article from {url}, length={len(extracted_text)} chars")
-                return extracted_text
-            else:
-                logger.warning(f"Trafilatura extracted no content from {url}")
-                return "Failed to extract article content: No content found"
-        else:
-            logger.warning(f"Trafilatura failed to download content from {url}")
-            return "Failed to fetch article content: Download failed"
-    except Exception as e:
-        logger.error(f"Error fetching full article from {url}: {e}")
-        return f"Failed to fetch article content: {type(e).__name__}"
+            fallback = await collect_engine_articles(
+                topic, NEWS_TAB, discover, extract, limit=limit - len(articles), seen=seen,
+            )
+            articles.extend(fallback.articles)
+            if not articles and (primary.unreadable or fallback.unreadable):
+                raise NewsSearchError("unreadable_articles")
+            return articles
+    except TimeoutError:
+        error = NewsSearchError("timeout")
+    except NewsSearchError as failure:
+        error = failure
 
-def search_news(topic):
-    """
-    Fetches and compiles recent news articles on a given topic.
+    if articles:
+        logger.warning("News tab fallback did not complete: %s", error.reason)
+        return articles
+    raise error from None
 
-    This function is designed to be called **once** by the search agent within the multi-agent pipeline.
-    It uses SerpAPI to retrieve headlines and the Newspaper library to extract full article content.
-    Returns cleaned articles for downstream analysis.
-    """
-    logger.debug("Calling SerpAPI...")
-    params = {
-        "engine": "google",
-        "q": f"{topic} news {datetime.now().strftime('%Y-%m')}",
-        "tbm": "nws",  
-        "num": NUM_SOURCES,
-        "api_key": SERPAPI_KEY  
 
-    }
-    results = GoogleSearch(params).get_dict()
-    if results.get("error"):
-        raise RuntimeError("News provider returned an error.")
-    news_results = results.get("news_results", [])
-    logger.info("Found %d results from SerpAPI", len(news_results))
+async def search_news(topic: str) -> list[dict]:
+    from app.config import SERPAPI_KEY
 
-    compiled = []
-    with ThreadPoolExecutor(max_workers=NUM_SOURCES) as executor:
-        future_to_item = {executor.submit(fetch_full_article, item.get("link", "")): item for item in news_results}
-        
-        for future in as_completed(future_to_item):
-            item = future_to_item[future]
-            try:
-                full_text = future.result()
-                cleaned = clean_text(full_text)
-                logger.debug(f"🧼 Cleaned article:\n{cleaned[:300]}...")
+    async with httpx.AsyncClient() as search_client, httpx.AsyncClient(max_redirects=3) as article_client:
+        async def discover(query, engine):
+            return await discover_news(search_client, SERPAPI_KEY, query, engine)
 
-                article = {
-                    "id": str(uuid.uuid4()),  
-                    "title": item.get("title", "").strip(),
-                    "source": item.get("source", "").strip(),
-                    "date": item.get("date", "").strip(),
-                    "url": item.get("link", "").strip(),
-                    "content": cleaned
-                }
-                if is_json_serializable(article):
-                    compiled.append(article)
-                else:
-                    logger.warning(f"⚠️ Skipping article due to serialization issue: {article['url']}")
-            except Exception as exc:
-                logger.error(f"🚨 Article at {item.get('link')} generated an exception: {exc}")
+        async def extract(url):
+            return await fetch_article_text(article_client, url)
 
-    return compiled
+        return await retrieve_news(topic, discover, extract)

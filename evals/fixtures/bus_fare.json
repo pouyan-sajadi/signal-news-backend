@@ -1,0 +1,44 @@
+{
+  "name": "Northbridge bus fare increase",
+  "focus": "Just the Facts",
+  "depth": 1,
+  "articles": [
+    {
+      "id": "bf1",
+      "title": "Transit board meeting minutes for May 6",
+      "source": "Northbridge Transit Board",
+      "date": "2026-05-06",
+      "url": "https://transit.northbridge.test/board/may-6-minutes",
+      "content": "The Northbridge Transit Board voted 6–2 to raise the adult cash bus fare from $2.50 to $3.00 effective July 1. The monthly pass remains $72. Board members cited rising operating costs. The resolution passed without amendments."
+    },
+    {
+      "id": "bf2",
+      "title": "Northbridge bus fare to rise July 1",
+      "source": "Northbridge Daily",
+      "date": "2026-05-07",
+      "url": "https://daily.northbridge.test/local/bus-fare",
+      "content": "According to the May 6 transit board meeting minutes, Northbridge will raise the adult cash bus fare from $2.50 to $3.00 on July 1. The board voted 6–2. The minutes cite rising operating costs and say monthly passes will still cost $72."
+    },
+    {
+      "id": "bf3",
+      "title": "Board votes to raise cash fare by 50 cents",
+      "source": "Northbridge Wire",
+      "date": "2026-05-07",
+      "url": "https://wire.northbridge.test/news/cash-fare",
+      "content": "Northbridge Daily reports that the transit board voted 6–2 to raise the adult cash fare from $2.50 to $3.00 beginning July 1, citing operating costs. The monthly pass stays at $72, the Daily reported, citing the board minutes."
+    },
+    {
+      "id": "bf4",
+      "title": "What the cash fare increase means for riders",
+      "source": "Northbridge Community Radio",
+      "date": "2026-05-09",
+      "url": "https://radio.northbridge.test/interviews/bus-riders",
+      "content": "Community Radio interviewed riders at the East Market bus stop. Home care worker Maya Chen said she pays cash for eight bus trips most weeks because she cannot afford to buy a monthly pass upfront. Student Eli Carter said he uses a monthly pass and expects his own spending to stay the same. The station heard from both riders directly."
+    }
+  ],
+  "rubric": {
+    "original_decision": "bf1",
+    "firsthand_rider_experience": "bf4",
+    "same_announcement": ["bf1", "bf2", "bf3"]
+  }
+}

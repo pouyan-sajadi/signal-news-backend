@@ -24,4 +24,3 @@ SERPAPI_KEY = get_secret("SERPAPI_API_KEY")
 LLM_API_KEY = get_secret("LLM_API_KEY")
 LLM_BASE_URL = get_secret("LLM_BASE_URL")
 LLM_MODEL = get_secret("LLM_MODEL")
-NUM_SOURCES = 15
