@@ -1,0 +1,48 @@
+{
+  "Toronto transit fare changes": {
+    "google_news": {
+      "news_results": [
+        {
+          "highlight": {"title": "Board sets new fares", "source": {"name": "Transit Board"}, "iso_date": "2026-11-19T16:00:00Z", "link": "https://transit.test/decision"},
+          "stories": [
+            {"title": "Board sets fares", "source": {"name": "Transit Board"}, "link": "https://transit.test/decision?utm_source=google"},
+            {"title": "Changes to rider costs", "source": {"name": "Local Radio"}, "link": "https://radio.test/riders"}
+          ]
+        },
+        {"title": "What the vote means", "source": {"name": "City Daily"}, "link": "https://daily.test/analysis"}
+      ]
+    },
+    "google": {
+      "news_results": [
+        {"title": "What the vote means", "source": "City Daily", "date": "2 days ago", "link": "https://daily.test/analysis"},
+        {"title": "Board sets fares", "source": "Transit Board", "link": "https://transit.test/decision"},
+        {"title": "Fare change announcement", "source": "Local Wire", "link": "https://wire.test/announcement"}
+      ]
+    }
+  },
+  "central bank interest rate decision": {
+    "google_news": {
+      "news_results": [
+        {"title": "Rate decision statement", "source": {"name": "Central Bank"}, "link": "https://bank.test/statement"},
+        {"title": "Rate decision reaction", "source": {"name": "Finance Daily"}, "link": "https://finance.test/reaction"}
+      ]
+    },
+    "google": {
+      "news_results": [
+        {"title": "Rate decision statement", "source": "Central Bank", "link": "https://bank.test/statement?utm_medium=search"},
+        {"title": "Rate decision context", "source": "Economy Desk", "link": "https://economy.test/context"}
+      ]
+    }
+  },
+  "data centre electricity demand": {
+    "google_news": {
+      "error": "Google hasn't returned any results for this query."
+    },
+    "google": {
+      "news_results": [
+        {"title": "Grid operator demand outlook", "source": "Grid Operator", "link": "https://grid.test/outlook"},
+        {"title": "Local response to grid outlook", "source": "Metro Journal", "link": "https://metro.test/response"}
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "before_tags": {
+    "profiles": [
+      {"id": "bf1", "perspective": ["operating costs"]},
+      {"id": "bf2", "perspective": ["commuter costs"], "source_type": "news report"},
+      {"id": "bf3", "perspective": ["fare policy"], "source_type": "news report"},
+      {"id": "bf4", "perspective": ["rider impact"], "source_type": "news report"}
+    ],
+    "article_ids": ["bf2", "bf3", "bf4"]
+  },
+  "with_tags": {
+    "profiles": [
+      {"id": "bf1", "perspective": ["operating costs"], "coverage_roles": ["main development"], "evidence_types": ["primary document"]},
+      {"id": "bf2", "perspective": ["commuter costs"], "source_type": "news report", "coverage_roles": ["main development"], "evidence_types": ["secondary reporting"]},
+      {"id": "bf3", "perspective": ["fare policy"], "source_type": "news report", "coverage_roles": ["main development"], "evidence_types": ["secondary reporting"]},
+      {"id": "bf4", "perspective": ["rider impact"], "source_type": "news report", "coverage_roles": ["impact"], "evidence_types": ["firsthand account"], "represented_voices": ["home care workers", "students"]}
+    ],
+    "article_ids": ["bf1", "bf4"]
+  }
+}

@@ -8,7 +8,7 @@ Authlib==1.6.0
 bandit==1.8.6
 beautifulsoup4==4.13.4
 black==25.1.0
-certifi==2025.7.14
+certifi==2026.11.20
 cffi==1.17.1
 cfgv==3.4.0
 charset-normalizer==3.4.2
@@ -41,9 +41,10 @@ jieba3k==0.35.1
 Jinja2==3.1.6
 jiter==0.10.0
 joblib==1.5.1
+langchain-core==1.8.4
 lxml==6.0.0
 lxml_html_clean==0.4.2
-markdown-it-py==3.0.0
+markdown-it-py[linkify]==3.0.0
 MarkupSafe==3.0.2
 marshmallow==4.0.0
 mccabe==0.7.0
@@ -64,6 +65,7 @@ pre_commit==4.2.0
 propcache==0.3.2
 psutil==6.1.1
 pycodestyle==2.14.0
+pydantic>=2.7.4,<3.0.0
 pycparser==2.22
 pyflakes==3.4.0
 Pygments==2.19.2
